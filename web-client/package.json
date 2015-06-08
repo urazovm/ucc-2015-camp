@@ -1,7 +1,7 @@
 {
-  "name": "zuhlke-days-2015-talk",
+  "name": "ucc-2015-camp-web-client",
   "version": "1.0.0",
-  "description": "Building modular Single Page Web Applications without Frameworks",
+  "description": "",
   "license": "Apache-2.0",
   "private": true,
   "scripts": {
