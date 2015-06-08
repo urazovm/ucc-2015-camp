@@ -2,7 +2,7 @@ BASE = .
 
 ISTANBUL = ./node_modules/.bin/istanbul
 
-all: server
+all: serve
 
 node_modules:
 	npm install
