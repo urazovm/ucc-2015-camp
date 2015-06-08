@@ -1,0 +1,37 @@
+<div class="home background"></div>
+<div class="container home">
+    <div class="card card-container">
+        <img id="profile-img" class="profile-img-card" src="img/avatar_2x.png"/>
+
+        <p id="profile-name" class="profile-name-card"></p>
+
+        <form class="form-signin" decorator="parsley" autocomplete="off">
+            <span id="reauth-email" class="reauth-email"></span>
+
+            <div class="form-group">
+                <input id="inputEmail"
+                       type="email"
+                       class="form-control"
+                       placeholder="Email address"
+                       value="{{email}}"
+                       required
+                       autofocus>
+            </div>
+            <div class="form-group">
+                <input id="inputPassword"
+                       type="password"
+                       class="form-control"
+                       placeholder="Password"
+                       value="{{password}}"
+                       required>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block btn-signin"
+                    type="submit"
+                    on-click='signIn'
+                    disabled="{{!parsleyValid}}">Sign in</button>
+        </form>
+        {{#if showError}}
+        <p class="text-danger">Your username/password is invalid!</p>
+        {{/if}}
+    </div>
+</div>
