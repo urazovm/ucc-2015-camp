@@ -1,4 +1,5 @@
 cordova/platforms
+cordova/plugins
 *.iml
 .idea
 dist
