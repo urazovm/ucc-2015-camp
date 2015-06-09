@@ -11,7 +11,7 @@ function invalidUsernameOrPassword() {
 
 function responseJson(user) {
   return {
-    user: { username: user.username },
+    user: {username: user.username},
     accessToken: jwt.sign({username: user.username}, 'secretKey')
   }
 }
@@ -20,9 +20,8 @@ router.get('/login', function(req, res, next) {
   var accessToken = req.get('X-Auth-Token');
   jwt.verify(accessToken, 'secretKey', function(err, decodedToken) {
     if (err) return next(invalidUsernameOrPassword());
-    User.findOne({username: decodedToken.username})
-      .then(function(existingUser) {
-        return res.json(responseJson(existingUser));
+    User.findOne({username: decodedToken.username}).then(function(existingUser) {
+      return res.json(responseJson(existingUser));
     });
 
   });
@@ -33,9 +32,8 @@ router.post('/login', function(req, res, next) {
   var password = req.body.password;
   if (username && password) {
     User.findOne({username: username}).then(function(existingUser) {
-      if (existingUser.authenticate(password)) {
+      if (existingUser && existingUser.authenticate(password))
         return res.json(responseJson(existingUser));
-      }
       else return next(invalidUsernameOrPassword());
     });
   }

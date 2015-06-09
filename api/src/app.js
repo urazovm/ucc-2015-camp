@@ -12,11 +12,9 @@ var sessions = require('./routes/sessions');
 var app = express();
 
 var User = require('./model/user');
-var dummyUsername = 'arthur@nudge.com';
+var dummyUsername = 'arthur2@nudge.com';
 User.findOne({username: dummyUsername}).then(function(user) {
-  if (!user) {
-    new User({username: dummyUsername, password: 'password'}).save();
-  }
+  if (!user) new User({username: dummyUsername, password: 'password'}).save();
 });
 
 app.use(logger('dev'));

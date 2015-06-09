@@ -27,6 +27,7 @@
     "mocha": "^2.2.5",
     "nconf": "^0.7.1",
     "proxyquire": "^1.5.0",
+    "should": "^6.0.3",
     "sinon": "^1.14.1",
     "supertest": "^1.0.1"
   }
