@@ -1,5 +1,13 @@
 var express = require('express');
 var router = express.Router();
+var Session = require('../model/session');
+
+router.post('/', function(req, res, next) {
+  new Session({name: req.body.name, items: []}).save(function (err, session) {
+    console.log(session);
+    res.jsonp(session)
+  });
+});
 
 router.get('/', function(req, res, next) {
   res.send({
@@ -26,7 +34,7 @@ router.get('/:sessionId', function(req, res, next) {
   } else res.sendStatus(404);
 });
 
-router.post('/:sessionId/estimate', function(req, res, next) {
+router.post('/:sessionId/item/:itemId/estimate', function(req, res, next) {
   res.statusCode = 200;
   res.send();
 });

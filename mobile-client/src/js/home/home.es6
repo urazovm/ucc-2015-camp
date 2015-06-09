@@ -30,7 +30,7 @@ class Home {
     getSession(sessionId) {
 
 
-        this.estimationSession.join(sessionId)
+        this.estimationSession.get(sessionId)
             .then((data) => {
                 console.log('SUCCESS');
                 console.log(data)

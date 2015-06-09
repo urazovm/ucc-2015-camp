@@ -21,6 +21,7 @@ class Home {
         this.ractive.on('submitEstimate', () => {
             let itemEstimate = this.ractive.get('itemEstimate');
             this.submitEstimate(itemEstimate);
+
         });
     }
 
@@ -31,6 +32,7 @@ class Home {
             .then((data) => {
                 console.log('SUCCESS');
                 console.log(data)
+                this.ractive.set('itemEstimate', '');
             },
             (err) => this.showError(err));
 
