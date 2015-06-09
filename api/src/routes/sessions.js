@@ -14,9 +14,9 @@ router.get('/:sessionId', function(req, res, next) {
     res.send({
       id: req.params.sessionId,
       items: [
-        {name: 'Item 1', description: 'Lorem Ipsum'},
+        {name: 'Item 1', description: 'Lorem Ipsum', estimates: [4, 10, 23, 9]},
         {name: 'Item number 2', description: 'Lorem Ipsum hfhfhfhf'},
-        {name: 'I am 3', description: 'Lorem asdfasdf Ipsum'},
+        {name: 'I am 3', description: 'Lorem asdfasdf Ipsum', estimates: [8, 0, 3456]},
         {name: 'Four', description: 'Lorem 444444444 v  44 4 4 4Ipsum'}
       ]
     });
