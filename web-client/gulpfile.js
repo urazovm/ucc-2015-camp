@@ -1,6 +1,7 @@
 'use strict';
 
 var gulp = require('gulp');
+var serve = require('gulp-serve');
 var paths = require('./gulp-tasks/config.js').paths;
 var browserSync = require('browser-sync');
 
@@ -17,10 +18,16 @@ gulp.task('build-all', ['vendor', 'build', 'less', 'minify-html', 'fonts', 'imag
 gulp.task('default', ['serve']);
 
 gulp.task('serve', ['build-all'], function() {
-  browserSync({server: './dist', port: process.env.PORT || 3000});
+  browserSync({server: './dist'});
   gulp.watch(paths.js.watch, ['js-watch']);
   gulp.watch(paths.less.watch, ['less-watch']);
 });
+
+gulp.task('serve-with-node', ['build-all'], serve({
+  root: ['./dist'],
+  port: process.env.PORT || 8080
+}));
+
 
 gulp.task('test', function(done) {
   var karma = require('karma').server;
