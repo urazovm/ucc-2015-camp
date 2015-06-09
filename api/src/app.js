@@ -1,9 +1,5 @@
 'use strict';
 
-var nconf = require('nconf');
-var configPath = 'config-' + (process.env.NODE_ENV || 'dev') + '.json';
-nconf.env().argv().file(configPath);
-
 var express = require('express');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -11,6 +7,7 @@ var bodyParser = require('body-parser');
 
 // routes
 var routes = require('./routes/index');
+var sessions = require('./routes/sessions');
 
 // initialise mongodb
 //require('./mongodb')(nconf.get('mongodb'));
@@ -31,6 +28,7 @@ app.use(function(req, res, next) {
 });
 
 app.use('/', routes);
+app.use('/sessions', sessions);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -61,12 +59,6 @@ app.use(function(err, req, res, next) {
     message: err.message,
     error: {}
   });
-});
-
-// start http server
-var port = nconf.get('port');
-app.listen(port, function () {
-  console.log('Started server, listening on port ' + port + '..');
 });
 
 module.exports = app;
