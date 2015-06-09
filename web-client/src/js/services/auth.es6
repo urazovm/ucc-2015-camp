@@ -21,7 +21,7 @@ class Auth {
   }
 
   restoreLogin() {
-    return this.login().then(
+    return this.http.get(this.configuration.api + '/login').then(
       (user) => this.events.auth.restoredLogin.dispatch(null, user),
       (err) => this.events.auth.restoredLogin.dispatch(err));
   }
