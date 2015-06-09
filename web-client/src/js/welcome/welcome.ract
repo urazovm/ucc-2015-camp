@@ -5,6 +5,8 @@
 
 <div class="container">
 
+
+    {{#if !sessionStarted}}
     <div class="panel-body">
 
 
@@ -12,7 +14,7 @@
             <div class="col-xs-4">
                 <div class="form-group">
 
-                    <div class="input-group">
+                    <div class="input-group" >
                         <div class="input-group-addon">Start a new Session</div>
                         <input type="text" data-ng-model="cellWidth" class="form-control"
                                value="{{estimationSessionName}}"
@@ -37,4 +39,5 @@
         </div>
 
     </div>
+    {{/if}}
 </div>

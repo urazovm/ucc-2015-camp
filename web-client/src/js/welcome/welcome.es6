@@ -5,6 +5,8 @@ import storage from '../services/storage.es6';
 
 class Welcome {
 
+
+
     constructor(auth, events, estimationSessions) {
         this.events = events;
         this.auth = auth;
@@ -20,7 +22,8 @@ class Welcome {
             data: function () {
                 return {
                     user: loggedInUser,
-                    sms: []
+                    sms: [],
+                    sessionStarted: false
                 };
             }
         });
@@ -47,7 +50,11 @@ class Welcome {
 
     startEstimationSession(name) {
 
-        this.estimationSessions.create(name);
+
+        this.estimationSession = this.estimationSessions.create(name);
+        console.log(this.estimationSession);
+
+        this.ractive.set('sessionStarted', true);
     }
 }
 
