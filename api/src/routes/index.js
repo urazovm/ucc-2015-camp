@@ -15,7 +15,7 @@ router.get('/login', function(req, res, next) {
     if (err) return next(invalidUsernameOrPassword());
     User.findOne({username: user.username})
       .then(function(existingUser) {
-        res.json({
+        return res.json({
           user: existingUser,
           accessToken: jwt.sign({username: existingUser.username}, 'secretKey')
         });
@@ -27,11 +27,10 @@ router.get('/login', function(req, res, next) {
 router.post('/login', function(req, res, next) {
   var username = req.body.username;
   var password = req.body.password;
-
   if (username && password) {
     User.findOne({username: username}).then(function(existingUser) {
       if (existingUser.authenticate(password)) {
-        res.json({
+        return res.json({
           user: existingUser,
           accessToken: jwt.sign({username: existingUser.username}, 'secretKey')
         });
