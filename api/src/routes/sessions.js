@@ -23,6 +23,7 @@ router.get('/:sessionId', function(req, res, next) {
       id: req.params.sessionId,
       items: [
         {
+          id:1,
           name: 'Item 1',
           description: 'Lorem Ipsum',
           estimates: [4, 10, 23, 9],
@@ -31,6 +32,7 @@ router.get('/:sessionId', function(req, res, next) {
           ]
         },
         {
+          id:2,
           name: 'Item number 2',
           description: 'Lorem Ipsum hfhfhfhf',
           links: [
@@ -38,6 +40,7 @@ router.get('/:sessionId', function(req, res, next) {
           ]
         },
         {
+          id:3,
           name: 'I am 3',
           description: 'Lorem asdfasdf Ipsum',
           estimates: [8, 0, 3456],
@@ -46,6 +49,7 @@ router.get('/:sessionId', function(req, res, next) {
           ]
         },
         {
+          id:4,
           name: 'Four',
           description: 'Lorem 444444444 v  44 4 4 4Ipsum',
           links: [
@@ -66,15 +70,47 @@ router.post('/:sessionId/item/:itemId/estimate', function(req, res, next) {
 });
 
 router.get('/:sessionId/items/:itemId', function(req, res, next) {
+
+  if (req.params.itemId === "1") {
     res.send({
-      id: req.params.itemId,
-          name: 'Item 1',
-          description: 'Lorem Ipsum',
-          estimates: [4, 10, 23, 9],
-          links: [
-            {rel: "estimate", href: "/sessions/123456/item/1234/estimate"}
-          ]
+      id: 1,
+      name: 'Item 1',
+      description: 'Lorem Ipsum',
+      estimates: [4, 10, 23, 9],
+      links: [
+        {rel: "estimate", href: "/sessions/123456/item/1234/estimate"}
+      ]
     });
+  } else if (req.params.itemId === "2") {
+    res.send({
+      id: 2,
+      name: 'Item number 2',
+      description: 'Lorem Ipsum hfhfhfhf',
+      links: [
+        {rel: "estimate", href: "/sessions/123456/item/24689/estimate"}
+      ]
+    });
+  } else if (req.params.itemId === "3") {
+    res.send({
+      id: 3,
+      name: 'I am 3',
+      description: 'Lorem asdfasdf Ipsum',
+      estimates: [8, 0, 3456],
+      links: [
+        {rel: "estimate", href: "/sessions/123456/item/4554545/estimate"}
+      ]
+    });
+  } else if (req.params.itemId === "4") {
+    res.send({
+      id: 4,
+      name: 'Four',
+      description: 'Lorem 444444444 v  44 4 4 4Ipsum',
+      links: [
+        {rel: "estimate", href: "/sessions/123456/item/98765/estimate"}
+      ]
+    });
+  }
+
 
 });
 

@@ -1,7 +1,7 @@
 import Ractive from 'ractive';
 import html from './estimate.ract'
 
-class Home {
+class Estimate {
 
     constructor(estimationSession, events, router) {
         this.estimationSession = estimationSession;
@@ -11,8 +11,8 @@ class Home {
 
     render(optionalItemId) {
         if (optionalItemId) {
-            this.estimationSession.getItem(null, optionalItemId).then((data) =>{
-                console.log('got stuff')
+            this.estimationSession.getItem(null, optionalItemId).then((data) => {
+                this.selectedItem = data;
                 this.ractive = new Ractive({
                     el: 'view',
                     template: html,
@@ -22,30 +22,33 @@ class Home {
                         selectedItem: data
                     }
                 });
+                this.ractive.on('submitEstimate', () => {
+                    let itemEstimate = this.ractive.get('itemEstimate');
+                    this.submitEstimate(itemEstimate);
+                });
             });
 
-        } else{
+        } else {
             this.ractive = new Ractive({
                 el: 'view',
                 template: html,
                 data: {
                     showError: false,
-                    selectedItemVisible: true,
-                    selectedItem: this.selectedItem
+                    selectedItemVisible: false
                 }
             });
-        };
+            this.ractive.on('submitEstimate', () => {
+                let itemEstimate = this.ractive.get('itemEstimate');
+                this.submitEstimate(itemEstimate);
+            });
+        }
 
 
-        this.ractive.on('submitEstimate', () => {
-            let itemEstimate = this.ractive.get('itemEstimate');
-            this.submitEstimate(itemEstimate);
-
-        });
     }
 
     submitEstimate(itemEstimate) {
-        if(this.selectedItem){
+        console.log('hello')
+        if (this.selectedItem) {
             this.estimationSession.submitEstimateFor(this.selectedItem, itemEstimate)
                 .then((data) => {
                     this.ractive.set('itemEstimate', '');
@@ -72,4 +75,4 @@ class Home {
     }
 }
 
-export default Home;
+export default Estimate;

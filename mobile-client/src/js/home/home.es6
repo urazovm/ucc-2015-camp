@@ -20,10 +20,15 @@ class Home {
             }
         });
 
-        this.ractive.on('signIn', () => {
+        this.ractive.on('sessionInteractive', () => {
             let sessionId = this.ractive.get('sessionId');
             this.getSession(sessionId);
             this.router.transitionTo('estimate');
+        });
+        this.ractive.on('sessionList', () => {
+            let sessionId = this.ractive.get('sessionId');
+            this.getSession(sessionId);
+            this.router.transitionTo('list');
         });
     }
 

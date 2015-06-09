@@ -32,6 +32,9 @@ class List {
     unrender() {
         return this.ractive.teardown();
     }
+    isProtected() {
+        return false;
+    }
 
 
 }

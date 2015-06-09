@@ -13,28 +13,7 @@
                 <div class="btn btn-primary pull-right" on-click='viewItem:{{.}}'>Estimate</div>
             </div>
             {{/each}}
-
-
         </div>
-        <p id="profile-name" class="profile-name-card"></p>
-        <form class="form-estimate" decorator="parsley" autocomplete="off">
 
-            <div class="form-group">
-                <input id="itemEstimate"
-                       type="number"
-                       class="form-control input-lg"
-                       placeholder="Estimate"
-                       value="{{itemEstimate}}"
-                       required
-                       autofocus>
-            </div>
-            <button class="btn btn-lg btn-primary btn-block btn-signin"
-                    type="submit"
-                    on-click='submitEstimate'
-                    disabled="{{!parsleyValid}}">Submit</button>
-        </form>
-        {{#if showError}}
-        <p class="text-danger">Your username/password is invalid!</p>
-        {{/if}}
     </div>
 </div>
