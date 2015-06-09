@@ -2,7 +2,7 @@ language: node_js
 env:
   - DIR=api APP=ucc-2015-camp-api
   - DIR=web-client APP=ucc-2015-camp-web-client
-script: cd $DIR && npm install
+script: cd $DIR && make test
 before_deploy: cd ../$DIR
 deploy:
   provider: heroku
