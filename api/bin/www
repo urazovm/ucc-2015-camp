@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --harmony
 
 var configuration = require('../src/configuration');
 
@@ -32,6 +32,12 @@ server.on('listening', onListening);
  */
 var io = require('socket.io').listen(server);
 var sockets = require('../src/sockets/sockets')(io);
+
+/**
+ * Connect to Mongodb
+ */
+var mongoose = require('mongoose');
+mongoose.connect(configuration.mongodb);
 
 /**
  * Normalize a port into a number, string, or false.

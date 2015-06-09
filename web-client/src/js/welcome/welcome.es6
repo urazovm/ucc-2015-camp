@@ -7,6 +7,7 @@ class Welcome {
 
 
 
+
     constructor(auth, events, estimationSessions) {
         this.events = events;
         this.auth = auth;
@@ -62,6 +63,7 @@ class Welcome {
         console.log(this.estimationSession.tasks)
 
     }
+
 }
 
 export default Welcome;

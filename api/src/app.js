@@ -1,7 +1,5 @@
 'use strict';
 
-var configuration = require('./configuration');
-
 var express = require('express');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -11,12 +9,13 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var sessions = require('./routes/sessions');
 
-// setup mongodb and mongoose
-var mongoose = require('mongoose');
-mongoose.model('User', require('./model/user.js'));
-mongoose.connect(process.env.MONGO_UCC_DB || configuration.mongodb); 
-
 var app = express();
+
+var User = require('./model/user');
+var dummyUsername = 'arthur2@nudge.com';
+User.findOne({username: dummyUsername}).then(function(user) {
+  if (!user) new User({username: dummyUsername, password: 'password'}).save();
+});
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
