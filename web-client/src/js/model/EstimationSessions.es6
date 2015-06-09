@@ -11,10 +11,10 @@ class EstimationSessions {
         console.log(sessionName);
 
 
-        let payload = sessionName;
-        return this.http.post(this.configuration.api + '/sessions', payload).then((response) => {
-            console.log(response);
-        });
+        //let payload = sessionName;
+        //return this.http.post(this.configuration.api + '/sessions', payload).then((response) => {
+        //    console.log(response);
+        //});
 
 
     }
