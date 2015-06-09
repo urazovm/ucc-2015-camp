@@ -43,7 +43,7 @@ router.post('/login', validate({body: inbound}), function(req, res, next) {
   User.findOne({username: username}).then(function(existingUser) {
     if (existingUser && existingUser.authenticate(password))
       return res.json(existingUser.map());
-    return next(invalidUsernameOrPassword());
+    next(invalidUsernameOrPassword());
   });
 });
 
