@@ -32,7 +32,7 @@
 
                 </div>
             {{else}}
-                <h3>{{estimationSessionName}}</h3>
+                <h3>{{estimationSession.id}}</h3>
                 <div class="form-group">
 
                     <div class="input-group" >
@@ -57,18 +57,23 @@
         </div>
 
 
-        {{#if estimationTasks}}
+        {{#if estimationSession.items}}
         <div class="tasks">
 
             <ul class="taskList">
-            {{#each estimationTasks:task}}
+            {{#each estimationSession.items:item}}
                 <li>{{name}}
                     <div class="actions">
+                        {{#if !estimates}}
                         <ul>
-                            <li class="action btn"><button>Start</button></li>
-                            <li class="action btn"><button>Edit</button></li>
+                            <li class="action btn"><button on-click="estimateTask:{{name}}">Start</button></li>
                             <li class="action btn"><button>Delete</button></li>
                         </ul>
+                        {{else}}
+                        <ul>
+                            <li class="action btn"><button>Re-estimate</button></li>
+                        </ul>
+                        {{/if}}
                     </div>
                 </li> 
             {{/each}}

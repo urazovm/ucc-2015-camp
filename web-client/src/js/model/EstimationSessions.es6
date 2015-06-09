@@ -4,19 +4,17 @@ class EstimationSessions {
         this.http = http;
         this.configuration = configuration;
         this.tasks = [];
+        this.session = {};
     }
 
 
     create(sessionName) {
 
-
-
-       // let payload = sessionName;
-        //return this.http.post(this.configuration.api + '/sessions', payload).then((response) => {
-        //    console.log(response);
-        //});
-        this.name = sessionName;
-
+        return this.http.get(this.configuration.api + '/sessions/123456').then((response) => {
+            console.log(response.data);
+            this.session = response.data;
+            return;
+        });
     }
 
     addTask(taskName){
