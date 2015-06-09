@@ -17,7 +17,7 @@ gulp.task('build-all', ['vendor', 'build', 'less', 'minify-html', 'fonts', 'imag
 gulp.task('default', ['serve']);
 
 gulp.task('serve', ['build-all'], function() {
-  browserSync({server: './dist'});
+  browserSync({server: './dist', port: process.env.PORT || 3000});
   gulp.watch(paths.js.watch, ['js-watch']);
   gulp.watch(paths.less.watch, ['less-watch']);
 });
