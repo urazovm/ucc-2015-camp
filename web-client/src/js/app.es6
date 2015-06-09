@@ -16,6 +16,7 @@ import Router from './services/router.es6';
 import events from './services/events.es6';
 import storage from './services/storage.es6';
 import Auth from './services/auth.es6';
+import EstimationSessions from './model/EstimationSessions.es6';
 import axios from 'axios';
 
 import Welcome from './welcome/welcome.es6';
@@ -25,6 +26,7 @@ import NotFound from './404/404.es6';
 
 let logger = new Logdown({prefix: 'app'});
 let auth = new Auth(axios, storage, events, configuration);
+let estimationSessions = new EstimationSessions(axios, configuration);
 let router = new Router(auth, events);
 
 axios.interceptors.request.use(function(config) {
@@ -34,10 +36,10 @@ axios.interceptors.request.use(function(config) {
   return config;
 });
 
-let socket = io(configuration.api);
+//let socket = io(configuration.api);
 
 router.addRoute('home', new Home(auth, events));
-router.addRoute('welcome', new Welcome(auth, events));
+router.addRoute('welcome', new Welcome(auth, events, estimationSessions));
 router.addRoute('sorry', new Sorry());
 router.addRoute('404', new NotFound());
 
