@@ -2,6 +2,7 @@ import Ractive from 'ractive';
 import html from './welcome.ract';
 import navbar from '../navbar/navbar.ract';
 import storage from '../services/storage.es6';
+import EstimationSession from '../model/EstimationSession.es6';
 
 class Welcome {
 
@@ -25,6 +26,8 @@ class Welcome {
     });
 
     this.ractive.on('logout', () => this.logout());
+    this.ractive.on('startEstimationSession', () => this.startEstimationSession(this.ractive.get('estimationSessionName')));
+
     this.events.sms.receivedSms.add((message) => this.ractive.push('sms', message));
   }
 
@@ -40,6 +43,11 @@ class Welcome {
   unrender() {
     this.events.sms.receivedSms.removeAll();
     return this.ractive.teardown();
+  }
+
+  startEstimationSession(name) {
+
+    new EstimationSession().start(name);
   }
 }
 

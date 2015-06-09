@@ -34,7 +34,7 @@ axios.interceptors.request.use(function(config) {
   return config;
 });
 
-let socket = io(configuration.api);
+//let socket = io(configuration.api);
 
 router.addRoute('home', new Home(auth, events));
 router.addRoute('welcome', new Welcome(auth, events));

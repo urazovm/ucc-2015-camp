@@ -5,8 +5,36 @@
 
 <div class="container">
 
-    <div class="jumbotron">
-        <h1>Hello World</h1>
-    </div>
+    <div class="panel-body">
 
+
+        <div class="row noprint">
+            <div class="col-xs-4">
+                <div class="form-group">
+
+                    <div class="input-group">
+                        <div class="input-group-addon">Start a new Session</div>
+                        <input type="text" data-ng-model="cellWidth" class="form-control"
+                               value="{{estimationSessionName}}"
+                               placeholder="Session Name">
+
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="col-xs-4">
+                <div style="text-align: center; padding-bottom: 10px;" >
+                    <a class="btn btn-primary " style="width: 150px;" on-click="startEstimationSession">
+                        Go!
+                    </a>
+
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
 </div>
