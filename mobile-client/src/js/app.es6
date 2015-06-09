@@ -41,6 +41,8 @@ router.addRoute('welcome', new Welcome(estimationSession, events));
 router.addRoute('sorry', new Sorry());
 router.addRoute('404', new NotFound());
 router.initialise();
+router.transitionTo('home');
+
 console.log('router init');
 events.estimationSession.restoredLogin.add(function(err, user) {
   let page = 'welcome';
