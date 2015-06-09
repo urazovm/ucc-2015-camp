@@ -8,7 +8,7 @@
             <div class="form-group">
                 <input id="inputSessionId"
                        type="text"
-                       class="form-control"
+                       class="form-control input-lg"
                        placeholder="Session ID"
                        value="{{sessionId}}"
                        required

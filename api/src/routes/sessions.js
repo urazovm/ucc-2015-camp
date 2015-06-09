@@ -26,7 +26,7 @@ router.get('/:sessionId', function(req, res, next) {
   } else res.sendStatus(404);
 });
 
-router.post('/:sessionId/estimate', function(req, res, next) {
+router.post('/:sessionId/item/:itemId/estimate', function(req, res, next) {
   res.statusCode = 200;
   res.send();
 });

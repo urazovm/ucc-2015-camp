@@ -7,7 +7,7 @@
             <div class="form-group">
                 <input id="itemEstimate"
                        type="number"
-                       class="form-control"
+                       class="form-control input-lg"
                        placeholder="Estimate"
                        value="{{itemEstimate}}"
                        required
