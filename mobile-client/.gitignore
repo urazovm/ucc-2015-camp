@@ -1,1 +1,5 @@
-/platforms
+/cordova/platforms
+/cordova/plugins
+/cordova/www
+/node_modules
+/dist
