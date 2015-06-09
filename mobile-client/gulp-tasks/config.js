@@ -16,24 +16,24 @@ module.exports.libs = [
 module.exports.paths = {
   js: {
     src: './src/js/app.es6',
-    dest: './dist/js/',
+    dest: './cordova/www/js/',
     watch: ['./src/**/*.es6', './src/**/*.ract']
   },
   html: {
     src: './src/index.html',
-    dest: './dist/'
+    dest: './cordova/www/'
   },
   fonts: {
     src: ['./node_modules/bootstrap/dist/fonts/*'],
-    dest: './dist/fonts/'
+    dest: './cordova/www/fonts/'
   },
   images: {
     src: ['./src/img/*'],
-    dest: './dist/img/'
+    dest: './cordova/www/img/'
   },
   less: {
     src: './src/css/styles.less',
-    dest: './dist/css/',
+    dest: './cordova/www/css/',
     watch: ['./src/**/*.less']
   },
   test: {
