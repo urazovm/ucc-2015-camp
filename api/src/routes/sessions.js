@@ -1,5 +1,13 @@
 var express = require('express');
 var router = express.Router();
+var Session = require('../model/session');
+
+router.post('/', function(req, res, next) {
+  new Session({name: req.body.name, items: []}).save(function (err, session) {
+    console.log(session);
+    res.jsonp(session)
+  });
+});
 
 router.get('/', function(req, res, next) {
   res.send({

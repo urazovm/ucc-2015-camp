@@ -7,16 +7,11 @@ class EstimationSessions {
 
 
     create(sessionName) {
-
-
-
-       // let payload = sessionName;
-        //return this.http.post(this.configuration.api + '/sessions', payload).then((response) => {
-        //    console.log(response);
-        //});
-
-        return {name: sessionName};
-
+        let payload = {name: sessionName};
+        return this.http.post(this.configuration.api + '/sessions', payload).then((response) => {
+            console.log(response);
+            return response;
+        });
     }
 }
 
