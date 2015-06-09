@@ -44,7 +44,6 @@ router.addRoute('list', new List(estimationSession, events,router));
 router.addRoute('sorry', new Sorry());
 router.addRoute('404', new NotFound());
 router.initialise();
-router.transitionTo('home');
 
 
 events.routing.notFound.add(function() {

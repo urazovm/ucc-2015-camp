@@ -11,10 +11,12 @@ class EstimationSession {
 
 
     getItem(sessionId, itemId){
+        console.log('getitem')
         if(!sessionId){
             sessionId = this.store.local.get('sessionId');
         }
         if(itemId){
+            console.log('got sesid and itemid')
             return this.http.get(this.configuration.api + '/sessions/' + sessionId+"/items/"+itemId).then(
                 (response) => {
                     return response.data;

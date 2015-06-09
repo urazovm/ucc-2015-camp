@@ -11,17 +11,31 @@ class Home {
 
     render(optionalItemId) {
         if (optionalItemId) {
-            this.selectedItem = this.estimationSession.getItem(null, optionalItemId);
+            this.estimationSession.getItem(null, optionalItemId).then((data) =>{
+                console.log('got stuff')
+                this.ractive = new Ractive({
+                    el: 'view',
+                    template: html,
+                    data: {
+                        showError: false,
+                        selectedItemVisible: true,
+                        selectedItem: data
+                    }
+                });
+            });
+
         } else{
-            this.selectedItem = null;
+            this.ractive = new Ractive({
+                el: 'view',
+                template: html,
+                data: {
+                    showError: false,
+                    selectedItemVisible: true,
+                    selectedItem: this.selectedItem
+                }
+            });
         };
-        this.ractive = new Ractive({
-            el: 'view',
-            template: html,
-            data: {
-                showError: false
-            }
-        });
+
 
         this.ractive.on('submitEstimate', () => {
             let itemEstimate = this.ractive.get('itemEstimate');

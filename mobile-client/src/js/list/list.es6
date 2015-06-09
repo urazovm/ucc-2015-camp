@@ -25,10 +25,12 @@ class List {
         });
 
         this.ractive.on('viewItem', (event,item) => {
-            console.log('viewItem');
-            console.log(item);
-
+            this.router.transitionTo('estimate/'+  item.id);
         });
+    }
+
+    unrender() {
+        return this.ractive.teardown();
     }
 
 

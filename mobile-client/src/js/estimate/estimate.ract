@@ -1,6 +1,14 @@
 <div class="home background"></div>
 <div class="container home">
     <div class="card card-container">
+        {{#if selectedItemVisible}}
+        <div class="row">
+            <div class="col-xs-12">
+                <h2>{{selectedItem.name}}</h2>
+                <p>{{selectedItem.description}}</p>
+            </div>
+        </div>
+        {{/if}}
         <p id="profile-name" class="profile-name-card"></p>
         <form class="form-estimate" decorator="parsley" autocomplete="off">
 
