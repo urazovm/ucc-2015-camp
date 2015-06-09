@@ -14,12 +14,18 @@ class EstimationSession {
     }, (errorResponse) => {alert('catastrophic failure when joining session');});
   }
 
+  submitEstimate(itemEstimate) {
+    let payload = {estimate:itemEstimate};
+  return this.http.post(this.configuration.api + '/sessions/'+this.getId()+'/estimate', payload).then((response) => {
+          return response.data;
+  }, (errorResponse) => {alert('catastrophic failure when sending estimate');});
+  }
   clear() {
     this.store.local.remove('sessionId');
   }
 
   getId() {
-    return this.store.memory.get('sessionId');
+    return this.store.local.get('sessionId');
   }
 }
 

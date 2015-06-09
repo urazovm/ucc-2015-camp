@@ -1,17 +1,15 @@
 import Ractive from 'ractive';
-import html from './home.ract'
+import html from './estimate.ract'
 
 class Home {
 
-  constructor(estimationSession, events,router) {
+  constructor(estimationSession, events, router) {
     this.estimationSession = estimationSession;
     this.events = events;
     this.router = router;
-    console.log('home constructor invoked')
   }
 
   render() {
-    console.log('home render called');
     this.ractive = new Ractive({
       el: 'view',
       template: html,
@@ -20,18 +18,17 @@ class Home {
       }
     });
 
-    this.ractive.on('signIn', () => {
-      let sessionId = this.ractive.get('sessionId');
-      this.getSession(sessionId);
-      this.router.transitionTo('estimate');
+    this.ractive.on('submitEstimate', () => {
+      let itemEstimate = this.ractive.get('itemEstimate');
+      this.submitEstimate(itemEstimate);
   });
   }
 
-  getSession(sessionId) {
+submitEstimate(itemEstimate) {
 
 
 
-  this.estimationSession.join(sessionId)
+  this.estimationSession.submitEstimate(itemEstimate)
       .then((data) => {
           console.log('SUCCESS');
           console.log(data)},
