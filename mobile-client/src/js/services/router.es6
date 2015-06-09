@@ -4,8 +4,8 @@ import _ from 'lodash';
 
 class Router {
 
-  constructor(auth, events) {
-    this.auth = auth;
+  constructor(estimationSession, events) {
+    this.estimationSession = estimationSession;
     this.events = events;
   }
 
@@ -36,7 +36,7 @@ class Router {
   }
 
   matchedHandler(path, view) {
-    if (view.isProtected() && !this.auth.loggedInUser()) {
+    if (view.isProtected() && !this.estimationSession.loggedInUser()) {
       view.unrender().then(() => this.events.routing.accessDenied.dispatch(path));
     }
   }

@@ -1,29 +1,18 @@
 <div class="home background"></div>
 <div class="container home">
     <div class="card card-container">
-        <img id="profile-img" class="profile-img-card" src="img/avatar_2x.png"/>
-
         <p id="profile-name" class="profile-name-card"></p>
-
         <form class="form-signin" decorator="parsley" autocomplete="off">
-            <span id="reauth-email" class="reauth-email"></span>
+            <span id="reestimationSession-email" class="reestimationSession-email"></span>
 
             <div class="form-group">
-                <input id="inputEmail"
-                       type="email"
+                <input id="inputSessionId"
+                       type="text"
                        class="form-control"
-                       placeholder="Email address"
-                       value="{{email}}"
+                       placeholder="Session ID"
+                       value="{{sessionId}}"
                        required
                        autofocus>
-            </div>
-            <div class="form-group">
-                <input id="inputPassword"
-                       type="password"
-                       class="form-control"
-                       placeholder="Password"
-                       value="{{password}}"
-                       required>
             </div>
             <button class="btn btn-lg btn-primary btn-block btn-signin"
                     type="submit"

@@ -3,12 +3,14 @@ import html from './home.ract'
 
 class Home {
 
-  constructor(auth, events) {
-    this.auth = auth;
+  constructor(estimationSession, events) {
+    this.estimationSession = estimationSession;
     this.events = events;
+    console.log('home constructor invoked')
   }
 
   render() {
+    console.log('home render called');
     this.ractive = new Ractive({
       el: 'view',
       template: html,
@@ -18,17 +20,24 @@ class Home {
     });
 
     this.ractive.on('signIn', () => {
-      let username = this.ractive.get('email');
-      let password = this.ractive.get('password');
-      this.signIn(username, password);
+      let sessionId = this.ractive.get('sessionId');
+      this.getSession(sessionId);
     });
   }
 
-  signIn(username, password) {
-    this.auth.login(username, password)
-      .then((user) => this.goToWelcomeScreen(),
+  getSession(sessionId) {
+
+
+
+  this.estimationSession.join(sessionId)
+      .then((data) => {
+          console.log('SUCCESS');
+          console.log(data)},
             (err) => this.showError(err));
-  }
+
+
+
+}
 
   showError(err) {
     this.ractive.set('showError', true);

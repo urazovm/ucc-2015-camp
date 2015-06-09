@@ -1,17 +1,17 @@
 import axios from 'axios';
 
-import Auth from 'services/auth.es6';
+import EstimationSession from 'services/estimationSession.es6';
 import storage from 'services/storage.es6';
 import events from 'services/events.es6';
 import Home from 'home/home.es6';
 
 describe('The Home View', function() {
 
-  let auth, home;
+  let estimationSession, home;
 
   beforeEach(function() {
-    auth = new Auth(axios, storage, events);
-    home = new Home(auth, events);
+    estimationSession = new EstimationSession(axios, storage, events);
+    home = new Home(estimationSession, events);
   });
 
   it('should render', function() {

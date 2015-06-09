@@ -12,7 +12,7 @@ class Events {
       notFound: new signals.Signal()
     };
 
-    this.auth = {
+    this.estimationSession = {
       restoredLogin: new signals.Signal()
     };
   }

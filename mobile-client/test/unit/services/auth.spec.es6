@@ -1,15 +1,15 @@
 import axios from 'axios';
 
-import Auth from 'services/auth.es6';
+import EstimationSession from 'services/estimationSession.es6';
 import storage from 'services/storage.es6';
 import events from 'services/events.es6';
 
-describe('The Authorization Service', function() {
+describe('The Estimation Session Service', function() {
 
-  let auth;
+  let estimationSession;
 
   beforeEach(function() {
-    auth = new Auth(axios, storage, events, {api: 'http://foobar.com'});
+    estimationSession = new EstimationSession(axios, storage, events, {api: 'http://foobar.com'});
     jasmine.Ajax.install();
   });
 
@@ -17,21 +17,17 @@ describe('The Authorization Service', function() {
     jasmine.Ajax.uninstall();
   });
 
-  it('should authenticate a user successfully', function(done) {
-    jasmine.Ajax.stubRequest('http://foobar.com/login').andReturn({
+  it('should get a list of items successfully', function(done) {
+    jasmine.Ajax.stubRequest('http://foobar.com/sessions/mySession').andReturn({
       'status': 200,
       'contentType': 'application/json',
       'responseText': JSON.stringify({
-        'accessToken': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ',
-        'user': {
-          firstname: 'John'
-        }
+        'items' : []
       })
     });
 
-    auth.login('username', 'password').then((user) => {
-      expect(storage.memory.get('user').firstname).toBe('John');
-      expect(storage.local.get('accessToken')).toBeDefined();
+    estimationSession.join('mySession').then((sessionId) => {
+      expect(storage.local.get('sessionId')).toBe('mySession');
       done();
     });
   });

@@ -15,7 +15,7 @@ Ractive.decorators.parsley = parsleyDecorator;
 import Router from './services/router.es6';
 import events from './services/events.es6';
 import storage from './services/storage.es6';
-import Auth from './services/auth.es6';
+import EstimationSession from './services/estimationSession.es6';
 import axios from 'axios';
 
 import Welcome from './welcome/welcome.es6';
@@ -24,28 +24,25 @@ import Sorry from './sorry/sorry.es6';
 import NotFound from './404/404.es6';
 
 let logger = new Logdown({prefix: 'app'});
-let auth = new Auth(axios, storage, events, configuration);
-let router = new Router(auth, events);
+let estimationSession = new EstimationSession(axios, storage, events, configuration);
+let router = new Router(estimationSession, events);
 
 axios.interceptors.request.use(function(config) {
   let accessToken = storage.local.get('accessToken');
-  if (accessToken) config.headers['X-Auth-Token'] = accessToken;
-  else delete config.headers['X-Auth-Token'];
+  if (accessToken) config.headers['X-estimationSession-Token'] = accessToken;
+  else delete config.headers['X-estimationSession-Token'];
   return config;
 });
 
 let socket = io(configuration.api);
 
-router.addRoute('home', new Home(auth, events));
-router.addRoute('welcome', new Welcome(auth, events));
+router.addRoute('home', new Home(estimationSession, events));
+router.addRoute('welcome', new Welcome(estimationSession, events));
 router.addRoute('sorry', new Sorry());
 router.addRoute('404', new NotFound());
-
-auth.restoreLogin().then(function() {
-  router.initialise();
-});
-
-events.auth.restoredLogin.add(function(err, user) {
+router.initialise();
+console.log('router init');
+events.estimationSession.restoredLogin.add(function(err, user) {
   let page = 'welcome';
 
   if (err && err.status === 401) {
@@ -77,4 +74,6 @@ events.routing.transitionTo.add(function(path, view) {
   view.unrender().then(function() {
     router.transitionTo(path);
   });
+
 });
+console.log('end of app.js')

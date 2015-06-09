@@ -5,9 +5,9 @@ import storage from '../services/storage.es6';
 
 class Welcome {
 
-  constructor(auth, events) {
+  constructor(estimationSession, events) {
     this.events = events;
-    this.auth = auth;
+    this.estimationSession = estimationSession;
   }
 
   render() {
@@ -29,7 +29,7 @@ class Welcome {
   }
 
   logout() {
-    this.auth.clearLogin();
+    this.estimationSession.clearLogin();
     this.events.routing.transitionTo.dispatch('home', this);
   }
 
