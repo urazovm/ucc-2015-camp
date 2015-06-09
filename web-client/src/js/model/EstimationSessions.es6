@@ -3,19 +3,26 @@ class EstimationSessions {
     constructor(http, configuration) {
         this.http = http;
         this.configuration = configuration;
+        this.session = {};
     }
 
 
     create(sessionName) {
 
+        return this.http.get(this.configuration.api + '/sessions/123456').then((response) => {
+            this.session = response.data;
+            return;
+        });
+    }
 
+    addTask(taskName){
 
-       // let payload = sessionName;
-        //return this.http.post(this.configuration.api + '/sessions', payload).then((response) => {
-        //    console.log(response);
-        //});
+        //send post with session and task id
+        //update the session tasks with response
 
-        return {name: sessionName};
+    }
+
+    startTask(task){
 
     }
 }

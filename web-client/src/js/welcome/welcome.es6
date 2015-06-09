@@ -5,48 +5,72 @@ import storage from '../services/storage.es6';
 
 class Welcome {
 
-  constructor(auth, events, estimationSessions) {
-    this.events = events;
-    this.auth = auth;
-    this.estimationSessions = estimationSessions;
-  }
 
-  render() {
-    let loggedInUser = storage.memory.get('user');
-    this.ractive = new Ractive({
-      el: 'view',
-      template: html,
-      partials: {navbar: navbar},
-      data: function() {
-        return {
-          user: loggedInUser,
-          sms: [],
-          sessionStarted: false
-        };
-      }
-    });
 
-    this.ractive.on('logout', () => this.logout());
-    this.ractive.on('startEstimationSession', () => this.startEstimationSession(this.ractive.get('estimationSessionName')));
-  }
 
-  logout() {
-    this.auth.clearLogin();
-    this.events.routing.transitionTo.dispatch('home', this);
-  }
+    constructor(auth, events, estimationSessions) {
+        this.events = events;
+        this.auth = auth;
+        this.estimationSession = estimationSessions;
+    }
 
-  isProtected() {
-    return true;
-  }
+    render() {
+        let loggedInUser = storage.memory.get('user');
+        this.ractive = new Ractive({
+            el: 'view',
+            template: html,
+            partials: {navbar: navbar},
+            data: function () {
+                return {
+                    user: loggedInUser,
+                    sessionStarted: false
+                };
+            }
+        });
 
-  unrender() {
-    return this.ractive.teardown();
-  }
+        this.ractive.on('logout', () => this.logout());
+        this.ractive.on('startEstimationSession', () => this.startEstimationSession(this.ractive.get('estimationSessionName')));
+        this.ractive.on('addEstimationTask', () => this.addEstimationTask(this.ractive.get('estimationTask')));
+        this.ractive.on('estimateTask', () => this.estimateTask(event,name));
+    }
 
-  startEstimationSession(name) {
-    this.estimationSession = this.estimationSessions.create(name);
-    this.ractive.set('sessionStarted', true);
-  }
+    logout() {
+        this.auth.clearLogin();
+        this.events.routing.transitionTo.dispatch('home', this);
+    }
+
+    isProtected() {
+        return true;
+    }
+
+    unrender() {
+        this.events.sms.receivedSms.removeAll();
+        return this.ractive.teardown();
+    }
+
+    startEstimationSession(name) {
+
+
+        this.estimationSession.create(name)
+            .then(() => {
+                this.ractive.set('sessionStarted', true);
+                this.ractive.set('estimationSession', this.estimationSession.session);       
+            });
+    }    
+
+
+    addEstimationTask(taskName) {
+
+        this.estimationSession.addTask(taskName);
+        this.ractive.set('estimationTasks', this.estimationSession.tasks);
+
+    }
+
+    estimateTask(e,task){
+
+        this.estimationSession.startTask(task);
+    }
+
 }
 
 export default Welcome;
