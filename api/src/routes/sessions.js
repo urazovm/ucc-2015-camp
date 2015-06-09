@@ -4,7 +4,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   res.send({
     items: [
-      {name:'Dummy Session', url: "/sessions/123456"}
+      {name:'Dummy Session', links: [{rel: "self", href: "/sessions/123456"}]}
     ]
   })
 });
@@ -18,7 +18,10 @@ router.get('/:sessionId', function(req, res, next) {
         {name: 'Item number 2', description: 'Lorem Ipsum hfhfhfhf'},
         {name: 'I am 3', description: 'Lorem asdfasdf Ipsum', estimates: [8, 0, 3456]},
         {name: 'Four', description: 'Lorem 444444444 v  44 4 4 4Ipsum'}
-      ]
+      ],
+      activeItem: {name: 'Four', description: 'Lorem 444444444 v  44 4 4 4Ipsum', links: [
+        {rel: "estimate", href: "/sessions/123456/item/98765/estimate"}
+      ]}
     });
   } else res.sendStatus(404);
 });
