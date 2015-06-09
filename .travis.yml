@@ -11,3 +11,4 @@ deploy:
   app: $APP
 notifications:
   slack: zuhlke-ucc-camp2015:FFugSoxFcDnFObeoXix5MBY5
+services: mongodb
