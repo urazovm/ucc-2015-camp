@@ -14,7 +14,7 @@ var sessions = require('./routes/sessions');
 // setup mongodb and mongoose
 var mongoose = require('mongoose');
 mongoose.model('User', require('./model/user.js'));
-mongoose.connect(configuration.mongodb);
+mongoose.connect(process.env.MONGO_UCC_DB || configuration.mongodb); 
 
 var app = express();
 
