@@ -3,3 +3,9 @@ env:
   - TEST_DIR=api
   - TEST_DIR=web-client
 script: cd $TEST_DIR && npm install 
+before_deploy: cd ../api
+deploy:
+  provider: heroku
+  api_key:
+    secure: NQlIZPYKjxEi4ba0Nz8KLiafMIAAa8juQAUzbvxG7tQrl3mvHfUpRX8h5HMxpW/LphwGpWn829bISAXy/skPenN5GmmPQynkzEKnDYVKIaN7JxY/oDjDuvUFOX64SMNUyXUmsZScuI76SKM0Z/a3Mh/xCBfv+fVdfa6BLxpkSQ6G+qp0W0FWXM4nXLaX9rpyq0jQoSBY6hiw1DcAjeE+niBIsSNdN9qeIl6+wuvuUK8T5mvrT8OU/2iXMIZJKEZkJCtCuQ4mhU+YBWgqY1Eql1zamVBgH08JogftUnBDRRrvzBd4LdjY1OoMvx2A/jcb9S2HkZad5VY5tZ8P2v+mhZ3hMOBp5TeesshK2hGDv/BWKstPVTAzEi/YtwLl2n3U7xMeEsZ4JgCrtiEKGozKaHkR3kmaAtOjaFj1K/9XcA002/GOBZ3rnwBhDif1JLTqFQT07f8dMbLkMl3hJQz3jx9mUym7mXl5LeAwabAzpSliWVM3c7hLnz3W6354ARSmsDR0mt+xfUOx+z100/9GSeHx883rkHmTLBQYfL1WWEixKda4g3ruL6aOloE7TxyONRH9EwAbcjVm9jjlSEGDecgRBynFHKs9MmIYMlB5IS0nLggcwhV0OYLmuCU/lWIhoI+TMQ/zmFGdRu6IrY6e6fod1jvmMW6WAg4iYFdsws8=
+  app: ucc-2015-camp-api
