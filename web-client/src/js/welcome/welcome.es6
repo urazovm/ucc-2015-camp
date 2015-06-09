@@ -10,7 +10,7 @@ class Welcome {
     constructor(auth, events, estimationSessions) {
         this.events = events;
         this.auth = auth;
-        this.estimationSessions = estimationSessions;
+        this.estimationSession = estimationSessions;
     }
 
     render() {
@@ -22,7 +22,6 @@ class Welcome {
             data: function () {
                 return {
                     user: loggedInUser,
-                    sms: [],
                     sessionStarted: false
                 };
             }
@@ -30,8 +29,7 @@ class Welcome {
 
         this.ractive.on('logout', () => this.logout());
         this.ractive.on('startEstimationSession', () => this.startEstimationSession(this.ractive.get('estimationSessionName')));
-
-        this.events.sms.receivedSms.add((message) => this.ractive.push('sms', message));
+        this.ractive.on('addEstimationTask', () => this.addEstimationTask(this.ractive.get('estimationTask')));
     }
 
     logout() {
@@ -51,10 +49,18 @@ class Welcome {
     startEstimationSession(name) {
 
 
-        this.estimationSession = this.estimationSessions.create(name);
-        console.log(this.estimationSession);
-
+        this.estimationSession.create(name);
         this.ractive.set('sessionStarted', true);
+        this.ractive.set('estimationSessionName', this.estimationSession.name);
+    }    
+
+
+    addEstimationTask(taskName) {
+
+        this.estimationSession.addTask(taskName);
+        this.ractive.set('estimationTasks', this.estimationSession.tasks);
+        console.log(this.estimationSession.tasks)
+
     }
 }
 

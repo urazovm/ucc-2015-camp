@@ -3,6 +3,7 @@ class EstimationSessions {
     constructor(http, configuration) {
         this.http = http;
         this.configuration = configuration;
+        this.tasks = [];
     }
 
 
@@ -14,9 +15,12 @@ class EstimationSessions {
         //return this.http.post(this.configuration.api + '/sessions', payload).then((response) => {
         //    console.log(response);
         //});
+        this.name = sessionName;
 
-        return {name: sessionName};
+    }
 
+    addTask(taskName){
+        this.tasks.push({name : taskName});
     }
 }
 

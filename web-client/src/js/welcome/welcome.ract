@@ -5,13 +5,14 @@
 
 <div class="container">
 
+{{test}}
 
-    {{#if !sessionStarted}}
     <div class="panel-body">
 
 
         <div class="row noprint">
             <div class="col-xs-4">
+                {{#if !sessionStarted}}
                 <div class="form-group">
 
                     <div class="input-group" >
@@ -21,23 +22,59 @@
                                placeholder="Session Name">
 
                     </div>
+                    <div style="text-align: center; padding-bottom: 10px;" >
+                        <a class="btn btn-primary " style="width: 150px;" on-click="startEstimationSession">
+                            Go!
+                        </a>
+
+                    </div>
 
 
                 </div>
-            </div>
+            {{else}}
+                <h3>{{estimationSessionName}}</h3>
+                <div class="form-group">
 
-            <div class="col-xs-4">
-                <div style="text-align: center; padding-bottom: 10px;" >
-                    <a class="btn btn-primary " style="width: 150px;" on-click="startEstimationSession">
-                        Go!
-                    </a>
+                    <div class="input-group" >
+                        <div class="input-group-addon">Add Item</div>
+                        <input type="text" data-ng-model="cellWidth" class="form-control"
+                               value="{{estimationTask}}"
+                               placeholder="Task Name">
+
+                    </div>
+                    <div style="text-align: center; padding-bottom: 10px;" >
+                        <a class="btn btn-primary " style="width: 150px;" on-click="addEstimationTask">
+                            Add
+                        </a>
+
+                    </div>
+
 
                 </div>
+            {{/if}}
             </div>
-
 
         </div>
 
+
+        {{#if estimationTasks}}
+        <div class="tasks">
+
+            <ul class="taskList">
+            {{#each estimationTasks:task}}
+                <li>{{name}}
+                    <div class="actions">
+                        <ul>
+                            <li class="action btn"><button>Start</button></li>
+                            <li class="action btn"><button>Edit</button></li>
+                            <li class="action btn"><button>Delete</button></li>
+                        </ul>
+                    </div>
+                </li> 
+            {{/each}}
+            </ul>
+        </div>
+        {{/if}}
+
     </div>
-    {{/if}}
 </div>
