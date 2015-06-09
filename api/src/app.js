@@ -1,5 +1,7 @@
 'use strict';
 
+var configuration = require('./configuration');
+
 var express = require('express');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -9,8 +11,9 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var sessions = require('./routes/sessions');
 
-// initialise mongodb
-//require('./mongodb')(nconf.get('mongodb'));
+// setup mongodb and mongoose
+var mongoose = require('mongoose');
+mongoose.connect(configuration.mongodb);
 
 var app = express();
 
