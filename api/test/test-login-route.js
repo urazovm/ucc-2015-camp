@@ -16,9 +16,20 @@ describe('GET /login', function() {
     });
   });
 
+  it('should respond with a 500 if the request does not match the schema', function(done) {
+    request(app)
+      .post('/login')
+      .set('Content-Type', 'application/json')
+      .send({username: 'foobar@example.com'})
+      .expect('Content-Type', /json/)
+      .expect(500, done);
+  });
+
   it('should respond with a 401', function(done) {
     request(app)
       .post('/login')
+      .set('Content-Type', 'application/json')
+      .send({username: 'foobar@example.com', password: 'fhfhf'})
       .expect('Content-Type', /json/)
       .expect(401, done);
   });

@@ -3,6 +3,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var crypto = require('crypto');
+var jwt = require('jsonwebtoken');
 
 var UserSchema = new Schema({
   username: {
@@ -36,6 +37,13 @@ UserSchema.methods.hashPassword = function(password) {
 
 UserSchema.methods.authenticate = function(password) {
   return this.password === this.hashPassword(password);
+};
+
+UserSchema.methods.map = function() {
+  return {
+    user: {username: this.username},
+    accessToken: jwt.sign({username: this.username}, 'secretKey')
+  }
 };
 
 module.exports = mongoose.model('User', UserSchema);

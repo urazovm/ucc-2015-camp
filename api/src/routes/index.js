@@ -10,13 +10,6 @@ function invalidUsernameOrPassword() {
   return err;
 }
 
-function responseJson(user) {
-  return {
-    user: {username: user.username},
-    accessToken: jwt.sign({username: user.username}, 'secretKey')
-  }
-}
-
 var inbound = {
   type: 'object',
   properties: {
@@ -38,7 +31,7 @@ router.get('/login', function(req, res, next) {
   jwt.verify(accessToken, 'secretKey', function(err, decodedToken) {
     if (err) return next(invalidUsernameOrPassword());
     User.findOne({username: decodedToken.username}).then(function(existingUser) {
-      res.json(responseJson(existingUser));
+      res.json(existingUser.map());
     });
   });
 });
@@ -49,7 +42,7 @@ router.post('/login', validate({body: inbound}), function(req, res, next) {
 
   User.findOne({username: username}).then(function(existingUser) {
     if (existingUser && existingUser.authenticate(password))
-      return res.json(responseJson(existingUser));
+      return res.json(existingUser.map());
     return next(invalidUsernameOrPassword());
   });
 });
