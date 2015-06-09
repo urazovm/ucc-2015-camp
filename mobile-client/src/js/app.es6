@@ -19,6 +19,7 @@ import EstimationSession from './services/estimationSession.es6';
 import axios from 'axios';
 
 import Estimate from './estimate/estimate.es6';
+import List from './list/list.es6';
 import Home from './home/home.es6';
 import Sorry from './sorry/sorry.es6';
 import NotFound from './404/404.es6';
@@ -38,6 +39,8 @@ let socket = io(configuration.api);
 
 router.addRoute('home', new Home(estimationSession, events, router));
 router.addRoute('estimate', new Estimate(estimationSession, events,router));
+router.addRoute('estimate/:itemId:', new Estimate(estimationSession, events,router));
+router.addRoute('list', new List(estimationSession, events,router));
 router.addRoute('sorry', new Sorry());
 router.addRoute('404', new NotFound());
 router.initialise();
@@ -56,4 +59,3 @@ events.routing.transitionTo.add(function(path, view) {
   });
 
 });
-console.log('end of app.js')

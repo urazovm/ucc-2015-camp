@@ -9,7 +9,12 @@ class Home {
         this.router = router;
     }
 
-    render() {
+    render(optionalItemId) {
+        if (optionalItemId) {
+            this.selectedItem = this.estimationSession.getItem(null, optionalItemId);
+        } else{
+            this.selectedItem = null;
+        };
         this.ractive = new Ractive({
             el: 'view',
             template: html,
@@ -26,17 +31,18 @@ class Home {
     }
 
     submitEstimate(itemEstimate) {
-
-
-        this.estimationSession.submitEstimate(itemEstimate)
+        if(this.selectedItem){
+            this.estimationSession.submitEstimateFor(this.selectedItem, itemEstimate)
+                .then((data) => {
+                    this.ractive.set('itemEstimate', '');
+                },
+                (err) => this.showError(err));
+        }
+        this.estimationSession.submitEstimateForActiveItem(itemEstimate)
             .then((data) => {
-                console.log('SUCCESS');
-                console.log(data)
                 this.ractive.set('itemEstimate', '');
             },
             (err) => this.showError(err));
-
-
     }
 
     showError(err) {
