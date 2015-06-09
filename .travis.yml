@@ -3,7 +3,7 @@ env:
   - DIR=api APP=ucc-2015-camp-api
   - DIR=web-client APP=ucc-2015-camp-web-client
 script: cd $DIR && npm install
-before_deploy: cd $DIR
+before_deploy: cd ../$DIR
 deploy:
   provider: heroku
   api_key:
