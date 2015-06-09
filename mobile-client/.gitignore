@@ -1,6 +1,5 @@
-cordova/platforms
-cordova/plugins
-*.iml
-.idea
-dist
-node_modules
+/cordova/platforms
+/cordova/plugins
+/cordova/www
+/node_modules
+/dist

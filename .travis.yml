@@ -1,2 +1,5 @@
 language: node_js
-script: cd api && npm install 
+env:
+  - TEST_DIR=api
+  - TEST_DIR=web-client
+script: cd $TEST_DIR && npm install 
