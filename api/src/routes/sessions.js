@@ -3,16 +3,23 @@ var router = express.Router();
 var Session = require('../model/session');
 
 router.post('/', function(req, res, next) {
-  new Session({name: req.body.name, items: []}).save(function (err, session) {
-    console.log(session);
-    res.jsonp(session)
+  var session = new Session({name: req.body.name, items: []});
+  session.save(function() {
+    var updated = session.toObject();
+    updated.links = [{rel: "items", href:"/sessions/" + session._id + "/item"}];
+    res.json(updated);
   });
 });
 
 router.get('/', function(req, res, next) {
   res.send({
     items: [
-      {name:'Dummy Session', links: [{rel: "self", href: "/sessions/123456"}]}
+      {
+        name:'Dummy Session',
+        links: [
+          {rel: "self", href: "/sessions/123456"}
+        ]
+      }
     ]
   })
 });
@@ -59,9 +66,22 @@ router.get('/:sessionId', function(req, res, next) {
       ],
       activeItem: {name: 'Four', description: 'Lorem 444444444 v  44 4 4 4Ipsum', links: [
         {rel: "estimate", href: "/sessions/123456/item/98765/estimate"}
-      ]}
+      ]},
+      links: [{rel: "items", href:"/sessions/123456/item"}]
     });
   } else res.sendStatus(404);
+});
+
+router.post('/:sessionId/item', function(req, res, next) {
+  Session.findById(req.params.sessionId, function (err, session) {
+    if (err) { res.sendStatus(500) }
+    else if (session) {
+      session.items.push({name: req.body.name});
+      session.save(function () {
+        res.sendStatus(201);
+      });
+    }
+  })
 });
 
 router.post('/:sessionId/item/:itemId/estimate', function(req, res, next) {

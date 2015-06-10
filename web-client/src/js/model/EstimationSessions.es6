@@ -1,3 +1,5 @@
+import _ from "lodash"
+
 class EstimationSessions {
 
     constructor(http, configuration) {
@@ -8,18 +10,19 @@ class EstimationSessions {
 
 
     create(sessionName) {
-
-        return this.http.get(this.configuration.api + '/sessions/123456').then((response) => {
+        let payload = {name: sessionName};
+        return this.http.post(this.configuration.api + '/sessions', payload).then((response) => {
             this.session = response.data;
-            return;
+            return response;
         });
     }
 
     addTask(taskName){
-
-        //send post with session and task id
-        //update the session tasks with response
-
+        let itemsUrl = this.configuration.api + _.result(_.find(this.session.links, {rel: "items"}), "href")
+        let item = {name: taskName};
+        this.http.post(itemsUrl, item).then(function () {
+           this.session.items.push(item);
+        });
     }
 
     startTask(task){
