@@ -26,9 +26,13 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:sessionName', function(req, res, next) {
-  Session.findOne({name:req.params.sessionName}).then(function(session) {
-    res.send(session);
-  });
+  Session.findOne({name:req.params.sessionName}).then(
+    function(session) {
+      console.log(session);
+      if (session) res.send(session);
+      else res.sendStatus(404);
+    }
+  );
 });
 
 router.post('/:sessionId/item', function(req, res, next) {
