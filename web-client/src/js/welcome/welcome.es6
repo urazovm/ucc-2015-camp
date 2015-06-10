@@ -7,77 +7,67 @@ import io from 'socket.io-client';
 class Welcome {
 
 
+  constructor(auth, events, estimationSessions, socket) {
+    this.events = events;
+    this.auth = auth;
+    this.estimationSession = estimationSessions;
+    this.socket = socket;
+    this.socket.on('estimateUpdated', function(msg) {
+      //TODO update the UI when new estimates are submitted
+      console.log(msg)
+    });
+  }
 
+  render() {
+    let loggedInUser = storage.memory.get('user');
+    this.ractive = new Ractive({
+      el: 'view',
+      template: html,
+      partials: {navbar: navbar},
+      data: function() {
+        return {
+          user: loggedInUser,
+          sessionStarted: false
+        };
+      }
+    });
 
-    constructor(auth, events, estimationSessions, socket) {
-        this.events = events;
-        this.auth = auth;
-        this.estimationSession = estimationSessions;
-        this.socket = socket;
-        this.socket.on('estimateUpdated', function(msg){
-            //TODO update the UI when new estimates are submitted
-           console.log(msg)
-        });
-    }
+    this.ractive.on('logout', () => this.logout());
+    this.ractive.on('startEstimationSession', () => this.startEstimationSession(this.ractive.get('estimationSessionName')));
+    this.ractive.on('addEstimationTask', () => this.addEstimationTask(this.ractive.get('estimationTask')));
+    this.ractive.on('estimateTask', () => this.estimateTask(event, name));
+  }
 
-    render() {
-        let loggedInUser = storage.memory.get('user');
-        this.ractive = new Ractive({
-            el: 'view',
-            template: html,
-            partials: {navbar: navbar},
-            data: function () {
-                return {
-                    user: loggedInUser,
-                    sessionStarted: false
-                };
-            }
-        });
+  logout() {
+    this.auth.clearLogin();
+    this.events.routing.transitionTo.dispatch('home', this);
+  }
 
-        this.ractive.on('logout', () => this.logout());
-        this.ractive.on('startEstimationSession', () => this.startEstimationSession(this.ractive.get('estimationSessionName')));
-        this.ractive.on('addEstimationTask', () => this.addEstimationTask(this.ractive.get('estimationTask')));
-        this.ractive.on('estimateTask', () => this.estimateTask(event,name));
-    }
+  isProtected() {
+    return true;
+  }
 
-    logout() {
-        this.auth.clearLogin();
-        this.events.routing.transitionTo.dispatch('home', this);
-    }
+  unrender() {
+    return this.ractive.teardown();
+  }
 
-    isProtected() {
-        return true;
-    }
+  startEstimationSession(name) {
+    this.estimationSession.create(name)
+      .then(() => {
+        this.ractive.set('sessionStarted', true);
+        this.ractive.set('estimationSession', this.estimationSession.session);
+      });
+  }
 
-    unrender() {
-        this.events.sms.receivedSms.removeAll();
-        return this.ractive.teardown();
-    }
+  addEstimationTask(taskName) {
+    this.estimationSession.addTask(taskName).then(() => {
+      this.ractive.set('estimationTasks', this.estimationSession.session.items);
+    });
+  }
 
-    startEstimationSession(name) {
-
-
-        this.estimationSession.create(name)
-            .then(() => {
-                this.ractive.set('sessionStarted', true);
-                this.ractive.set('estimationSession', this.estimationSession.session);       
-            });
-    }    
-
-
-    addEstimationTask(taskName) {
-
-        this.estimationSession.addTask(taskName).then(() => {
-            this.ractive.set('estimationTasks', this.estimationSession.session.items);
-        });
-
-
-    }
-
-    estimateTask(e,task){
-
-        this.estimationSession.startTask(task);
-    }
+  estimateTask(e, task) {
+    this.estimationSession.startTask(task);
+  }
 
 }
 
