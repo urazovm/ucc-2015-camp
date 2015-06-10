@@ -29,7 +29,7 @@
 
                 </div>
             {{else}}
-                <h3>{{estimationSession.id}}</h3>
+                <h3>{{estimationSession.name}}</h3>
                 <div class="form-group">
 
                     <div class="input-group" >

@@ -10,10 +10,10 @@ class EstimationSessions {
 
 
     create(sessionName) {
-        let payload = {name: sessionName};
-        return this.http.post(this.configuration.api + '/sessions', payload).then((response) => {
+
+        return this.http.post(this.configuration.api + '/sessions', {name : sessionName}).then((response) => {
             this.session = response.data;
-            return response;
+            return;
         });
     }
 
