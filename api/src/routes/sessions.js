@@ -77,17 +77,21 @@ router.post('/:sessionName/item/:itemId/estimate', function(req, res, next) {
 
 router.get('/:sessionName/items/:itemId', function(req, res, next) {
   Session.findOne({name:req.params.sessionName}).then(function(session) {
-    var item = _.first(_.filter(session.items, function(item){return item._id == req.params.itemId})).toObject();
-    item.links = [{rel: "estimate", href:"/sessions/" + req.params.sessionName + "/item/" + req.params.itemId + '/estimate'}];
-    var estimates = _(item.estimates);
-    if (estimates.size() > 0) {
-      item.min = estimates.min();
-      item.max = estimates.max();
-      item.total = estimates.reduce(function(total, n) { return total + n; });
-      item.average = item.total / estimates.size();
-    }
-    res.send(item);
+    var item = _.first(_.filter(session.items, function (item) { return item._id == req.params.itemId })).toObject();
+    res.send(halItem(item, req.params.sessionName));
   });
 });
+
+function halItem(item, sessionName) {
+  item.links = [{rel: "estimate", href:"/sessions/" + sessionName + "/item/" + item._id + '/estimate'}];
+  var estimates = _(item.estimates);
+  if (estimates.size() > 0) {
+    item.min = estimates.min();
+    item.max = estimates.max();
+    item.total = estimates.reduce(function(total, n) { return total + n; });
+    item.average = item.total / estimates.size();
+  }
+  return item;
+}
 
 module.exports = router;
