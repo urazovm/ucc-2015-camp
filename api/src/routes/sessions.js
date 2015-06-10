@@ -47,9 +47,21 @@ router.post('/:sessionId/item', function(req, res, next) {
   })
 });
 
-router.post('/:sessionId/item/:itemId/estimate', function(req, res, next) {
-  res.statusCode = 200;
-  res.send();
+router.post('/:sessionName/item/:itemId/estimate', function(req, res, next) {
+  Session.findOne({name:req.params.sessionName}).then(function(session) {
+
+    var item = _.first(_.filter(session.items, function(item){return item._id == req.params.itemId}));
+    console.log(item);
+    item.estimates.push(req.body.estimate);
+    console.log(item);
+
+    session.save(function() {
+      res.statusCode = 200;
+      res.send();
+    });
+  });
+
+
 });
 
 router.get('/:sessionName/items/:itemId', function(req, res, next) {
