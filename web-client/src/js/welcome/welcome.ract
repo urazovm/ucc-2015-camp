@@ -9,14 +9,14 @@
     <div class="panel-body">
 
         <div class="row noprint">
-            <div class="col-xs-4">
+            <div class="col-xs-6">
                 {{#if !sessionStarted}}
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">Start a new Session</div>
                         <input type="text" data-ng-model="cellWidth" class="form-control"
                                value="{{estimationSessionName}}"
-                               placeholder="Session Name">
+                               placeholder="Add Session Name" on-enter="startEstimationSession">
                     </div>
                     <div style="text-align: center; padding-bottom: 10px;" >
                         <a class="btn btn-primary " style="width: 150px;" on-click="startEstimationSession">
@@ -68,7 +68,7 @@
                         </ul>
                         {{/if}}
                     </div>
-                </li> 
+                </li>
             {{/each}}
             </ul>
         </div>
