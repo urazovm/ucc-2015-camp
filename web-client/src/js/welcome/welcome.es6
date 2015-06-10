@@ -14,9 +14,10 @@ class Welcome {
         this.auth = auth;
         this.estimationSession = estimationSessions;
         this.socket = socket;
-        this.socket.on('estimateUpdated', function(msg){
-            //TODO update the UI when new estimates are submitted
-           console.log(msg)
+        this.socket.on('estimateUpdated', (res) => {
+            console.log(res.session);
+            this.estimationSession.updateSession(res.session);
+            this.ractive.set('estimationSession', this.estimationSession.session);       
         });
     }
 

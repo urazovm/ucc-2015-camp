@@ -5,7 +5,11 @@
 
 <div class="container">
 
-
+{{#each estimationSession.items}}
+    {{#each .estimates}}
+        {{.}}
+    {{/each}}
+{{/each}}
     <div class="panel-body">
 
         <div class="row noprint">

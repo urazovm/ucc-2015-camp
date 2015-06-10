@@ -18,12 +18,17 @@ class EstimationSessions {
     }
 
     addTask(taskName){
+        console.log(this.session.links);
         let itemsUrl = this.configuration.api + _.result(_.find(this.session.links, {rel: "items"}), "href")
         let item = {name: taskName};
         return this.http.post(itemsUrl, item).then((response) => {
            this.session.items.push(item);
            return;
         });
+    }
+
+    updateSession(session){
+        this.session = session;
     }
 }
 

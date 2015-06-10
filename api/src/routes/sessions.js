@@ -62,6 +62,8 @@ router.post('/:sessionName/item/:itemId/estimate', function(req, res, next) {
   Session.findOne({name:req.params.sessionName}).then(function(session) {
 
     var item = _.first(_.filter(session.items, function(item){return item._id == req.params.itemId}));
+    console.log(item);
+    console.log(req.body.estimate);
     item.estimates.push(req.body.estimate);
 
     session.save(function() {
