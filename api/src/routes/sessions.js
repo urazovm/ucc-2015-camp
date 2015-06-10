@@ -5,7 +5,8 @@ var _ = require('lodash');
 
 router.post('/', function(req, res, next) {
   var session = new Session({name: req.body.name, items: []});
-  session.save(function() {
+  session.save(function(err) {
+    console.log(req.body.name);
     var updated = session.toObject();
     updated.links = [{rel: "items", href:"/sessions/" + session._id + "/item"}];
     res.json(updated);

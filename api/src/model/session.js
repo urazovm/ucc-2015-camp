@@ -4,11 +4,6 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var SessionSchema = new Schema({
-  id: {
-    type: String,
-    trim: true,
-    required: 'Please name the session'
-  },
   name: {
     type: String,
     trim: true,
