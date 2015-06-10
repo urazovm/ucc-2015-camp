@@ -9,21 +9,21 @@
     <div class="panel-body">
 
         <div class="row noprint">
-            <div class="col-xs-6">
+            <div class="col-xs-10">
                 {{#if !sessionStarted}}
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">Start a new Session</div>
                         <input type="text" data-ng-model="cellWidth" class="form-control"
                                value="{{estimationSessionName}}"
-                               placeholder="Add Session Name" on-enter="startEstimationSession">
+                               placeholder="Add Session Name">
+                        <div class="btn-holder">
+                          <a class="btn btn-arrow " style="width: 150px;" on-click="startEstimationSession">
+                              Go!
+                          </a>
+                        </div>
                     </div>
-                    <div style="text-align: center; padding-bottom: 10px;" >
-                        <a class="btn btn-primary " style="width: 150px;" on-click="startEstimationSession">
-                            Go!
-                        </a>
 
-                    </div>
 
 
 
@@ -37,14 +37,14 @@
                         <input type="text" data-ng-model="cellWidth" class="form-control"
                                value="{{estimationTask}}"
                                placeholder="Task Name">
+                        <div class="btn-holder">
+                          <a class="btn btn-arrow " style="width: 150px;" on-click="addEstimationTask">
+                              Add
+                          </a>
+                        </div>
 
                     </div>
-                    <div style="text-align: center; padding-bottom: 10px;" >
-                        <a class="btn btn-primary " style="width: 150px;" on-click="addEstimationTask">
-                            Add
-                        </a>
 
-                    </div>
                 </div>
               {{/if}}
         </div>

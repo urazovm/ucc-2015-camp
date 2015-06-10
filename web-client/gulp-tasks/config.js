@@ -28,7 +28,7 @@ module.exports.paths = {
     dest: './dist/fonts/'
   },
   images: {
-    src: ['./src/img/*'],
+    src: ['./src/img/*', './src/svg/*'],
     dest: './dist/img/'
   },
   less: {
