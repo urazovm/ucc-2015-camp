@@ -20,13 +20,10 @@ class EstimationSessions {
     addTask(taskName){
         let itemsUrl = this.configuration.api + _.result(_.find(this.session.links, {rel: "items"}), "href")
         let item = {name: taskName};
-        this.http.post(itemsUrl, item).then(function () {
+        return this.http.post(itemsUrl, item).then((response) => {
            this.session.items.push(item);
+           return;
         });
-    }
-
-    startTask(task){
-
     }
 }
 
