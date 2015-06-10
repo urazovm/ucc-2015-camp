@@ -36,10 +36,10 @@ axios.interceptors.request.use(function(config) {
   return config;
 });
 
-//let socket = io(configuration.api);
-
+let socket = io(configuration.api);
+console.log(configuration.api)
 router.addRoute('home', new Home(auth, events));
-router.addRoute('welcome', new Welcome(auth, events, estimationSessions));
+router.addRoute('welcome', new Welcome(auth, events, estimationSessions, socket));
 router.addRoute('sorry', new Sorry());
 router.addRoute('404', new NotFound());
 

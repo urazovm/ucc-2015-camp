@@ -14,6 +14,7 @@ var app = express();
 var User = require('./model/user');
 var Session = require('./model/session');
 
+
 var dummyUsername = 'arthur@nudge.com';
 User.findOne({username: dummyUsername}).then(function(user) {
   console.log(user);

@@ -3,6 +3,13 @@ var router = express.Router();
 var Session = require('../model/session');
 var _ = require('lodash');
 
+router.get('/sendevent', function(req, res, next) {
+
+
+  console.log('sending event');
+  res.sendStatus(200);
+});
+
 router.post('/', function(req, res, next) {
   var session = new Session({name: req.body.name, items: []});
   session.save(function(err) {
@@ -33,7 +40,6 @@ router.get('/', function(req, res, next) {
 router.get('/:sessionName', function(req, res, next) {
   Session.findOne({name:req.params.sessionName}).then(
     function(session) {
-      console.log(session);
       if (session) res.send(session);
       else res.sendStatus(404);
     }
@@ -56,12 +62,12 @@ router.post('/:sessionName/item/:itemId/estimate', function(req, res, next) {
   Session.findOne({name:req.params.sessionName}).then(function(session) {
 
     var item = _.first(_.filter(session.items, function(item){return item._id == req.params.itemId}));
-    console.log(item);
     item.estimates.push(req.body.estimate);
-    console.log(item);
 
     session.save(function() {
       res.statusCode = 200;
+      var io = req.app.get('io');
+      io.sockets.emit('estimateUpdated', {session: session.toObject()});
       res.send();
     });
   });

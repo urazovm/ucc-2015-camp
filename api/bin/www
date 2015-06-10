@@ -32,6 +32,7 @@ server.on('listening', onListening);
  */
 var io = require('socket.io').listen(server);
 var sockets = require('../src/sockets/sockets')(io);
+app.set('io', io);
 
 /**
  * Connect to Mongodb

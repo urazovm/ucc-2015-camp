@@ -2,16 +2,22 @@ import Ractive from 'ractive';
 import html from './welcome.ract';
 import navbar from '../navbar/navbar.ract';
 import storage from '../services/storage.es6';
+import io from 'socket.io-client';
 
 class Welcome {
 
 
 
 
-    constructor(auth, events, estimationSessions) {
+    constructor(auth, events, estimationSessions, socket) {
         this.events = events;
         this.auth = auth;
         this.estimationSession = estimationSessions;
+        this.socket = socket;
+        this.socket.on('estimateUpdated', function(msg){
+            //TODO update the UI when new estimates are submitted
+           console.log(msg)
+        });
     }
 
     render() {
