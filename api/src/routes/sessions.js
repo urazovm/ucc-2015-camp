@@ -67,7 +67,9 @@ router.post('/:sessionName/item/:itemId/estimate', function(req, res, next) {
     session.save(function() {
       res.statusCode = 200;
       var io = req.app.get('io');
-      io.sockets.emit('estimateUpdated', {session: session.toObject()});
+      var halSession = session.toObject();
+      halSession.links = [{rel: "items", href: "/sessions/" + session._id + "/item"}];
+      io.sockets.emit('estimateUpdated', {session: halSession});
       res.send();
     });
   });
