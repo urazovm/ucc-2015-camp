@@ -3,3 +3,4 @@
 /cordova/www
 /node_modules
 /dist
+.idea
