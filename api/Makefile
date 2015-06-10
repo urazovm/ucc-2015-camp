@@ -1,5 +1,7 @@
 BASE = .
 
+ISTANBUL = ./node_modules/.bin/istanbul
+
 all: serve
 
 node_modules:
@@ -9,7 +11,7 @@ serve: test
 	npm start
 
 test: node_modules
-	./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- test/ -R spec
+	$(ISTANBUL) cover ./node_modules/.bin/_mocha -- test/ -R spec
 
 report: test
 	open coverage/lcov-report/index.html
