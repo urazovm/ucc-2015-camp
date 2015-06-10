@@ -93,6 +93,10 @@ function halItem(item, sessionName) {
     item.max = estimates.max();
     item.total = estimates.reduce(function(total, n) { return total + n; });
     item.average = item.total / estimates.size();
+    item.stddev = Math.sqrt(estimates.map(function(e){
+      var diff = e - item.average;
+      return (diff * diff) / (estimates.size() - 1);
+    }).reduce(function(total, n) { return total + n; })) / item.average;
   }
   return item;
 }
