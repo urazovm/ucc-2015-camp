@@ -54,7 +54,11 @@ router.post('/:sessionId/item/:itemId/estimate', function(req, res, next) {
 
 router.get('/:sessionName/items/:itemId', function(req, res, next) {
   Session.findOne({name:req.params.sessionName}).then(function(session) {
-    res.send(_.first(_.filter(session.items, function(item){return item._id == req.params.itemId})));
+
+    var item = _.first(_.filter(session.items, function(item){return item._id == req.params.itemId})).toObject();
+
+    item.links = [{rel: "estimate", href:"/sessions/" + req.params.sessionName + "/item/" + req.params.itemId + '/estimate'}];
+    res.send(item);
   });
 });
 
