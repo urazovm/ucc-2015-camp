@@ -17,9 +17,7 @@ router.post('/', function(req, res, next) {
       res.statusCode = 400;
       res.send(err);
     } else {
-      var updated = session.toObject();
-      updated.links = [{rel: "items", href: "/sessions/" + session._id + "/item"}];
-      res.json(updated);
+      res.json(halSession(session.toObject()));
     }
   });
 });
@@ -40,7 +38,7 @@ router.get('/', function(req, res, next) {
 router.get('/:sessionName', function(req, res, next) {
   Session.findOne({name:req.params.sessionName}).then(
     function(session) {
-      if (session) res.send(session);
+      if (session) res.json(halSession(session.toObject()));
       else res.sendStatus(404);
     }
   );
@@ -87,6 +85,7 @@ router.get('/:sessionName/items/:itemId', function(req, res, next) {
 });
 
 function halItem(item, sessionName) {
+  console.log(item);
   item.links = [{rel: "estimate", href:"/sessions/" + sessionName + "/item/" + item._id + '/estimate'}];
   var estimates = _(item.estimates);
   if (estimates.size() > 0) {
@@ -97,5 +96,12 @@ function halItem(item, sessionName) {
   }
   return item;
 }
+
+function halSession(session) {
+  session.links = [{rel: "items", href: "/sessions/" + session._id + "/item"}];
+  session.items = _.map(session.items, function(item){return halItem(item, session.name)});
+  return session;
+}
+
 
 module.exports = router;
