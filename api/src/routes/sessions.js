@@ -6,10 +6,14 @@ var _ = require('lodash');
 router.post('/', function(req, res, next) {
   var session = new Session({name: req.body.name, items: []});
   session.save(function(err) {
-    console.log(req.body.name);
-    var updated = session.toObject();
-    updated.links = [{rel: "items", href:"/sessions/" + session._id + "/item"}];
-    res.json(updated);
+    if (err) {
+      res.statusCode = 400;
+      res.send(err);
+    } else {
+      var updated = session.toObject();
+      updated.links = [{rel: "items", href: "/sessions/" + session._id + "/item"}];
+      res.json(updated);
+    }
   });
 });
 
