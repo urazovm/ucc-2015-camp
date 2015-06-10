@@ -10,14 +10,12 @@ class EstimationSession {
     }
 
 
-    getItem(sessionId, itemId){
-        console.log('getitem')
-        if(!sessionId){
-            sessionId = this.store.local.get('sessionId');
+    getItem(sessionName, itemId){
+        if(!sessionName){
+            sessionName = this.store.local.get('sessionName');
         }
         if(itemId){
-            console.log('got sesid and itemid')
-            return this.http.get(this.configuration.api + '/sessions/' + sessionId+"/items/"+itemId).then(
+            return this.http.get(this.configuration.api + '/sessions/' + sessionName+"/items/"+itemId).then(
                 (response) => {
                     return response.data;
                 }, (errorResponse) => {
@@ -25,11 +23,12 @@ class EstimationSession {
                 });
         }
     }
-    get(sessionId) {
-        if (arguments.length !== 1) sessionId = this.store.local.get('sessionId');
-        return this.http.get(this.configuration.api + '/sessions/' + sessionId).then(
+    get(sessionName) {
+        console.log('get session');
+        if (arguments.length !== 1) sessionName = this.store.local.get('sessionName');
+        return this.http.get(this.configuration.api + '/sessions/' + sessionName).then(
             (response) => {
-                this.store.local.set('sessionId', sessionId);
+                this.store.local.set('sessionName', sessionName);
                 return response.data;
 
             }, (errorResponse) => {
@@ -39,8 +38,9 @@ class EstimationSession {
 
     submitEstimateFor(item, itemEstimate) {
         let payload = {estimate: itemEstimate};
-
+console.log(item)
         let estimateLink = _.first(_.filter(item.links, function(link){
+
                 return link.rel === 'estimate';}
         ));
         return this.http.post(this.configuration.api + estimateLink.href, payload).then(
@@ -49,28 +49,27 @@ class EstimationSession {
             }, (errorResponse) => {
                 alert('catastrophic failure when sending estimate');
             });
-
-
     }
 
 
     submitEstimateForActiveItem(itemEstimate) {
+        console.log('submitEstimateForActiveItem')
         return this.get().then(
             (response) => {
+                console.log(response)
+                console.log(itemEstimate)
                 return this.submitEstimateFor(response.activeItem, itemEstimate);
             }, (errorResponse) => {
                 alert('catastrophic failure when getting session');
             });
-
-
     }
 
     clear() {
-        this.store.local.remove('sessionId');
+        this.store.local.remove('sessionName');
     }
 
     getId() {
-        return this.store.local.get('sessionId');
+        return this.store.local.get('sessionName');
     }
 }
 

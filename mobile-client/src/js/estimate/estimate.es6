@@ -24,7 +24,11 @@ class Estimate {
                 });
                 this.ractive.on('submitEstimate', () => {
                     let itemEstimate = this.ractive.get('itemEstimate');
-                    this.submitEstimate(itemEstimate);
+                    this.estimationSession.submitEstimateFor(this.selectedItem, itemEstimate)
+                        .then((data) => {
+                            this.ractive.set('itemEstimate', '');
+                        },
+                        (err) => this.showError(err));
                 });
             });
 
@@ -39,28 +43,17 @@ class Estimate {
             });
             this.ractive.on('submitEstimate', () => {
                 let itemEstimate = this.ractive.get('itemEstimate');
-                this.submitEstimate(itemEstimate);
+                this.estimationSession.submitEstimateForActiveItem(itemEstimate)
+                    .then((data) => {
+                        this.ractive.set('itemEstimate', '');
+                    },
+                    (err) => this.showError(err));
             });
         }
 
 
     }
 
-    submitEstimate(itemEstimate) {
-        console.log('hello')
-        if (this.selectedItem) {
-            this.estimationSession.submitEstimateFor(this.selectedItem, itemEstimate)
-                .then((data) => {
-                    this.ractive.set('itemEstimate', '');
-                },
-                (err) => this.showError(err));
-        }
-        this.estimationSession.submitEstimateForActiveItem(itemEstimate)
-            .then((data) => {
-                this.ractive.set('itemEstimate', '');
-            },
-            (err) => this.showError(err));
-    }
 
     showError(err) {
         this.ractive.set('showError', true);

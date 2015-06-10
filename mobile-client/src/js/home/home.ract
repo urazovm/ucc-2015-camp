@@ -6,11 +6,11 @@
             <span id="reestimationSession-email" class="reestimationSession-email"></span>
 
             <div class="form-group">
-                <input id="inputSessionId"
+                <input id="inputsessionName"
                        type="text"
                        class="form-control input-lg"
                        placeholder="Session ID"
-                       value="{{sessionId}}"
+                       value="{{sessionName}}"
                        required
                        autofocus>
             </div>

@@ -7,11 +7,9 @@ class Home {
         this.estimationSession = estimationSession;
         this.events = events;
         this.router = router;
-        console.log('home constructor invoked')
     }
 
     render() {
-        console.log('home render called');
         this.ractive = new Ractive({
             el: 'view',
             template: html,
@@ -21,24 +19,25 @@ class Home {
         });
 
         this.ractive.on('sessionInteractive', () => {
-            let sessionId = this.ractive.get('sessionId');
-            this.getSession(sessionId);
+            let sessionName = this.ractive.get('sessionName');
+            this.getSession(sessionName);
             this.router.transitionTo('estimate');
         });
         this.ractive.on('sessionList', () => {
-            let sessionId = this.ractive.get('sessionId');
-            this.getSession(sessionId);
-            this.router.transitionTo('list');
+            let sessionName = this.ractive.get('sessionName');
+            this.getSession(sessionName).then((data)=>{
+                this.router.transitionTo('list');
+
+            });
         });
     }
 
-    getSession(sessionId) {
+    getSession(sessionName) {
 
 
-        this.estimationSession.get(sessionId)
+        return this.estimationSession.get(sessionName)
             .then((data) => {
-                console.log('SUCCESS');
-                console.log(data)
+                return data;
             },
             (err) => this.showError(err));
 

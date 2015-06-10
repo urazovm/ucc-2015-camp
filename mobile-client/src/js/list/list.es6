@@ -20,12 +20,11 @@ class List {
 
 
         this.estimationSession.get().then((data) => {
-            console.log(data);
             this.ractive.set('estimationSession', data);
         });
 
         this.ractive.on('viewItem', (event,item) => {
-            this.router.transitionTo('estimate/'+  item.id);
+            this.router.transitionTo('estimate/'+  item._id);
         });
     }
 

@@ -16,7 +16,40 @@ var Session = require('./model/session');
 
 var dummyUsername = 'arthur@nudge.com';
 User.findOne({username: dummyUsername}).then(function(user) {
+  console.log(user);
   if (!user) new User({username: dummyUsername, password: 'password'}).save();
+});
+
+Session.findOne({name:"aaaaa"}).then(function(session){
+  if (!session) new Session({
+    name:"aaaaa",
+    items: [
+      {
+        name: 'Item 1aaaaa',
+        description: 'Lorem Ipsum',
+        estimates: [4, 10, 23, 9]
+      },
+      {
+        name: 'Item number 2',
+        description: 'Lorem Ipsum hfhfhfhf'
+      },
+      {
+        name: 'I am 3',
+        description: 'Lorem asdfasdf Ipsum',
+        estimates: [8, 0, 3456]
+      },
+      {
+        name: 'Four',
+        description: 'Lorem 444444444 v  44 4 4 4Ipsum'
+      }
+    ],
+    activeItem: {
+      id:1,
+      name: 'Item 1',
+      description: 'Lorem Ipsum',
+      estimates: [4, 10, 23, 9]
+    }
+  }).save();
 });
 
 app.use(logger('dev'));
