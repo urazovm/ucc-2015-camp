@@ -33,7 +33,7 @@ module.exports = function(gulp) {
       .pipe(source('app.js'))
       .pipe(buffer())
       .pipe(sourcemaps.init({loadMaps: true}))
-      .pipe(streamify(uglify()))
+      // .pipe(streamify(uglify()))
       .pipe(sourcemaps.write('./'))
       .pipe(gulp.dest(paths.js.dest));
   }

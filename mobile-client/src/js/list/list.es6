@@ -18,24 +18,17 @@ class List {
             }
         });
 
-
-        this.estimationSession.get().then((data) => {
-            this.ractive.set('estimationSession', data);
-        });
-
-        this.ractive.on('viewItem', (event,item) => {
-            this.router.transitionTo('estimate/'+  item._id);
-        });
+        this.estimationSession.get().then(data => this.ractive.set('estimationSession', data));
+        this.ractive.on('viewItem', (event,item) => this.router.transitionTo('estimate/'+  item._id));
     }
 
     unrender() {
         return this.ractive.teardown();
     }
+
     isProtected() {
         return false;
     }
-
-
 }
 
 export default List;

@@ -28,13 +28,6 @@ let logger = new Logdown({prefix: 'app'});
 let estimationSession = new EstimationSession(axios, storage, events, configuration);
 let router = new Router(estimationSession, events);
 
-axios.interceptors.request.use(function(config) {
-  let accessToken = storage.local.get('accessToken');
-  if (accessToken) config.headers['X-estimationSession-Token'] = accessToken;
-  else delete config.headers['X-estimationSession-Token'];
-  return config;
-});
-
 let socket = io(configuration.api);
 
 router.addRoute('home', new Home(estimationSession, events, router));

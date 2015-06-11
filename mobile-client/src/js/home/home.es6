@@ -23,25 +23,18 @@ class Home {
             this.getSession(sessionName);
             this.router.transitionTo('estimate');
         });
+
         this.ractive.on('sessionList', () => {
             let sessionName = this.ractive.get('sessionName');
-            this.getSession(sessionName).then((data)=>{
-                this.router.transitionTo('list');
-
-            });
+            this.getSession(sessionName)
+              .then(data => this.router.transitionTo('list'));
         });
     }
 
     getSession(sessionName) {
-
-
         return this.estimationSession.get(sessionName)
-            .then((data) => {
-                return data;
-            },
-            (err) => this.showError(err));
-
-
+            .then(data => data)
+            .catch(err => this.showError(err));
     }
 
     showError(err) {
