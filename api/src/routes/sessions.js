@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Session = require('../model/session');
+var mongoose = require('mongoose');
 var _ = require('lodash');
 
 router.get('/', function (req, res) {
@@ -27,6 +28,7 @@ router.post('/', function (req, res) {
 });
 
 router.get('/:sessionId', function (req, res) {
+    if(!mongoose.Types.ObjectId.isValid(req.params.sessionId)) res.sendStatus(404);
     Session.findById(req.params.sessionId).then(function (session) {
         if (session) res.json(halSession(session));
         else res.sendStatus(404);
@@ -34,6 +36,7 @@ router.get('/:sessionId', function (req, res) {
 });
 
 router.get('/:sessionId/items', function (req, res, next) {
+    if(!mongoose.Types.ObjectId.isValid(req.params.sessionId)) res.sendStatus(404);
     Session.findById(req.params.sessionId).then(function (session) {
         if (session) res.json(halItems(session));
         else res.sendStatus(404);
@@ -41,7 +44,8 @@ router.get('/:sessionId/items', function (req, res, next) {
 });
 
 router.post('/:sessionId/items', function (req, res) {
-  Session.findById(req.params.sessionId, function (err, session) {
+    if(!mongoose.Types.ObjectId.isValid(req.params.sessionId)) res.sendStatus(404);
+    Session.findById(req.params.sessionId, function (err, session) {
     if (err) return res.sendStatus(500);
     if (!session) return res.sendStatus(400);
     if (!req.body.name) return res.sendStatus(400);
@@ -54,6 +58,8 @@ router.post('/:sessionId/items', function (req, res) {
 });
 
 router.get('/:sessionId/items/:itemId', function (req, res, next) {
+    if(!mongoose.Types.ObjectId.isValid(req.params.sessionId)) res.sendStatus(404);
+    if(!mongoose.Types.ObjectId.isValid(req.params.itemId)) res.sendStatus(404);
     Session.findById(req.params.sessionId, function (err, session) {
         var item = _.first(_.filter(session.items, function (item) {
             return item._id == req.params.itemId
@@ -64,6 +70,8 @@ router.get('/:sessionId/items/:itemId', function (req, res, next) {
 });
 
 router.post('/:sessionId/items/:itemId/estimates', function (req, res) {
+    if(!mongoose.Types.ObjectId.isValid(req.params.sessionId)) res.sendStatus(404);
+    if(!mongoose.Types.ObjectId.isValid(req.params.itemId)) res.sendStatus(404);
     if (req.body.estimate) {
       Session.findById(req.params.sessionId).then(function (session) {
           var item = _.first(_.filter(session.items, function (item) {

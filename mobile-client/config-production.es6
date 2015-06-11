@@ -1,3 +1,3 @@
 export default {
-  api: 'http://production/api'
+  api: 'http://ucc-2015-camp-api.herokuapp.com'
 };
