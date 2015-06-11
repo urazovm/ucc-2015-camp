@@ -53,7 +53,6 @@ class Welcome {
 
     startEstimationSession(event, name) {
 
-      this.setProcessStep('addTask');
       event.preventDefault();
 
 
@@ -67,6 +66,7 @@ class Welcome {
                         console.log('got the updated session', data);
                         this.estimationSession.session = data;
                         console.log(this.estimationSession.session)
+                        this.setProcessStep('addTask');
                         this.ractive.set('estimationSession', this.estimationSession.session);
 
                     });

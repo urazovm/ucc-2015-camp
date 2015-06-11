@@ -23,7 +23,9 @@ class EstimationSessions {
                          return this.session;
                      }
                  )
-             });
+             }, (errorResponse) => {
+                console.error('FAILURE when creating  session');
+            });
         });
     }
 
