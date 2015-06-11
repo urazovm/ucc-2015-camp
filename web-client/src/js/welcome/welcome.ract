@@ -8,7 +8,7 @@
 <div class="row noprint progress-tasks">
   <div class='col-xs-3 {{ processStep === "createSession" ? "active" : "" }}'><span class="number">1</span>Create Session</div>
   <div class='col-xs-3 {{ processStep === "addTask" ? "active" : "" }}'><span class="number">2</span>Manage Tasks</div>
-  <div class='col-xs-3 {{ processStep === "startSession" ? "active" : "" }}'><span class="number">3</span>Start Session</div>
+  <div class='col-xs-3 {{ processStep === "startSession" ? "active" : "" }}'><span class="number">3</span>Run Session</div>
   <div class='col-xs-3 {{ processStep === "viewResults" ? "active" : "" }}'><span class="number">4</span>View Results</div>
 </div>
 
@@ -39,24 +39,48 @@
                           </a>
                         </div>
                     </div>
-
-
-
-
                 </div>
             {{else}}
                 <div class="session-title">
                     {{estimationSession.name}}
                     <div class="btn-holder">
-                      <a class="btn btn-start" style="width: 150px;" on-click="startSessionTask">
+                      <a class="btn btn-start" style="width: 150px;" on-click="startSession">
                           Start my session
                       </a>
                     </div>
                 </div>
 
+                <div class='{{ processStep !== "startSession" ? "is-hidden" : "" }}'>
+
+                  <table class="estimation-tasks">
+                    <thead>
+                       <tr>
+                         <th>Task</th>
+                         <th>Votes</th>
+                         <th>Disagree (%)</th>
+                       </tr>
+                    </thead>
+                  {{#if estimationSession.items.length}}
+                      <tbody>
+                        {{#each estimationSession.items:item}}
+                         <tr class="estimation-tasks__row">
+                           <td>{{name}}</td>
+                           <td></td>
+                           <td></td>
+                         </tr>
+                        {{/each}}
+                      </tbody>
+                    {{/if}}
+               </table>
+
+
+
+
+              </div>
+
                   {{#if estimationSession.items}}
 
-                   <div class="row noprint">
+                   <div class='row noprint {{ processStep !== "addTask" ? "is-hidden" : "" }}'>
                       <div class="col-xs-10">
 
                         <div class="tasks">
@@ -72,7 +96,7 @@
                   </div>
 
                   {{/if}}
-                <div class="form-group">
+                <div class='form-group {{ processStep !== "addTask" ? "is-hidden" : "" }}'>
 
                     <div class="input-group" >
                         <div class="input-group-addon">Add Item</div>
