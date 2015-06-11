@@ -80,7 +80,7 @@ router.post('/:sessionId/items/:itemId/estimates', function (req, res) {
           item.estimates.push(req.body.estimate);
           session.save(function () {
               var io = req.app.get('io');
-              io.sockets.emit('estimateUpdated',  session._id );
+              io.sockets.emit('estimate-'+session._id,  session._id );
               res.sendStatus(200);
           });
       });

@@ -23,31 +23,28 @@ class EstimationSessions {
                          return this.session;
                      }
                  )
-
              });
-
         });
     }
 
     addTask(taskName){
-console.log(this.session);
+        console.log(this.session);
         let itemsUrl = this.configuration.api + this.session._links.items.href;
         let item = {name: taskName};
         return this.http.post(itemsUrl, item).then((response) => {
-            console.log(this.session);
-           this.session.items.push(item);
-            console.log(this.session);
+           this.session.items.push({item:item});
            return;
         });
     }
 
     get(sessionId) {
-
         if (arguments.length !== 1) sessionId = this.store.local.get('sessionId');
         return this.http.get(this.configuration.api + '/sessions/' + sessionId).then(
             (sessionResponse) => {
                 return this.http.get(this.configuration.api + sessionResponse.data._links.items.href).then((itemsResponse) =>{
-                        let sessionWithItems = _.extend(sessionResponse.data.session, {items: itemsResponse.data.items});
+                        let sessionWithItems = _.extend(sessionResponse.data.session, {
+                            _links:sessionResponse.data._links,
+                            items: itemsResponse.data.items});
                         return sessionWithItems;
                     }
                 )

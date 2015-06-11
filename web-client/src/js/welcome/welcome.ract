@@ -61,9 +61,9 @@
                     </thead>
                   {{#if estimationSession.items.length}}
                       <tbody>
-                        {{#each estimationSession.items:item}}
+                        {{#each estimationSession.items}}
                          <tr class="estimation-tasks__row">
-                           <td class="estimation-task__cell">{{name}}</td>
+                           <td class="estimation-task__cell">{{.item.name}}</td>
                            <td class="estimation-task__cell"></td>
                            <td class="estimation-task__cell"></td>
                          </tr>
@@ -85,8 +85,8 @@
                         <div class="tasks">
 
                           <ul class="taskList">
-                          {{#each estimationSession.items:item}}
-                              <li>{{name}}</li>
+                          {{#each estimationSession.items}}
+                              <li>{{.item.name}}</li>
                           {{/each}}
                           </ul>
                       </div>
