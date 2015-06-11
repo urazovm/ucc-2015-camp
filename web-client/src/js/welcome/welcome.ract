@@ -5,6 +5,13 @@
 
 <div class="container">
 
+<div class="row noprint progress-tasks">
+  <div class='col-xs-3 {{ processStep === "createSession" ? "active" : "" }}'><span class="number">1</span>Create Session</div>
+  <div class='col-xs-3 {{ processStep === "addTask" ? "active" : "" }}'><span class="number">2</span>Create Tasks</div>
+  <div class='col-xs-3 {{ processStep === "startSession" ? "active" : "" }}'><span class="number">3</span>Start Session</div>
+  <div class='col-xs-3 {{ processStep === "viewResults" ? "active" : "" }}'><span class="number">4</span>View Results</div>
+</div>
+
 {{#each estimationSession.items}}
     {{#each .estimates}}
         {{.}}
@@ -34,6 +41,37 @@
                 </div>
             {{else}}
                 <h3>{{estimationSession.name}}</h3>
+
+                  {{#if estimationSession.items}}
+
+                   <div class="row noprint">
+                      <div class="col-xs-10">
+
+                        <div class="tasks">
+
+                          <ul class="taskList">
+                          {{#each estimationSession.items:item}}
+                              <li>{{name}}
+                                  <div class="actions">
+                                      {{#if !estimates}}
+                                      <ul>
+                                          <li class="action btn"><button>Delete</button></li>
+                                      </ul>
+                                      {{else}}
+                                      <ul>
+                                          <li class="action btn"><button>Re-estimate</button></li>
+                                      </ul>
+                                      {{/if}}
+                                  </div>
+                              </li>
+                          {{/each}}
+                          </ul>
+                      </div>
+
+                      </div>
+                  </div>
+
+                  {{/if}}
                 <div class="form-group">
 
                     <div class="input-group" >
@@ -54,37 +92,7 @@
         </div>
 
 
-        {{#if estimationSession.items}}
 
-         <div class="row noprint">
-            <div class="col-xs-10">
-
-              <div class="tasks">
-
-                <ul class="taskList">
-                {{#each estimationSession.items:item}}
-                    <li>{{name}}
-                        <div class="actions">
-                            {{#if !estimates}}
-                            <ul>
-                                <li class="action btn"><button on-click="estimateTask:{{name}}">Start</button></li>
-                                <li class="action btn"><button>Delete</button></li>
-                            </ul>
-                            {{else}}
-                            <ul>
-                                <li class="action btn"><button>Re-estimate</button></li>
-                            </ul>
-                            {{/if}}
-                        </div>
-                    </li>
-                {{/each}}
-                </ul>
-            </div>
-
-            </div>
-        </div>
-
-        {{/if}}
 
     </div>
 </div>

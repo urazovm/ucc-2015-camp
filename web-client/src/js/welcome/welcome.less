@@ -1,3 +1,6 @@
+@active-number-colour: #10CB76;
+@inactive-number-colour: #DDD;
+
 h3 {
   font-size: 3.2em;
   font-weight: 100;
@@ -12,6 +15,35 @@ h3 {
   padding: 7px 50px 5px 50px;
   font-size: 1.8em;
   color: #fff;
+}
+
+
+.progress-tasks {
+  counter-reset: progress-tasks;
+  font-size: 2em;
+  font-weight: 100;
+  color: @inactive-number-colour;
+  .active {
+    color: @active-number-colour;
+    font-weight: 200;
+    .number {
+      border-color: @active-number-colour;
+    }
+  }
+  .number {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    border: 1px solid @inactive-number-colour;
+    text-align: center;
+    margin-right: 10px;
+  }
+
+//   > *::before {
+//       counter-increment: progress-tasks;
+//       content: counters(progress-tasks)''
+//   }
 }
 
 .input-group {
