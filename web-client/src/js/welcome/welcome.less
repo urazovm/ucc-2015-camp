@@ -1,6 +1,7 @@
 @active-number-colour: #10CB76;
 @inactive-number-colour: #DDD;
 @cool-light-grey: #CCC;
+@estimation-cell-padding: 1em;
 
 
 .is-hidden {
@@ -105,6 +106,15 @@
 
 .estimation-tasks__row {
   border-top: 1px solid @cool-light-grey;
+}
+
+.estimation-task__header,
+.estimation-task__cell {
+  padding: @estimation-cell-padding;
+  width: 15%;
+  &:first-child{
+    width: 70%;
+  }
 }
 
 
