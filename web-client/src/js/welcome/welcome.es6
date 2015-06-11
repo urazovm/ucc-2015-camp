@@ -34,6 +34,7 @@ class Welcome {
         this.ractive.on('startEstimationSession', () => this.startEstimationSession(event, this.ractive.get('estimationSessionName')));
         this.ractive.on('addEstimationTask', () => this.addEstimationTask(event, this.ractive.get('estimationTask')));
         this.ractive.on('estimateTask', () => this.estimateTask(event,name));
+        this.ractive.on('viewResults', () => this.viewResults());
         this.ractive.on('runSession', () => this.runSession());
     }
 
@@ -59,6 +60,7 @@ class Welcome {
         this.estimationSession.create(name)
             .then(() => {
                 this.ractive.set('sessionStarted', true);
+                this.setProcessStep('addTask');
                 this.ractive.set('estimationSession', this.estimationSession.session);
                 console.log(this.estimationSession.session)
                 this.socket.on('estimate-'+this.estimationSession.session.id, (sessionId) => {
@@ -66,7 +68,6 @@ class Welcome {
                         console.log('got the updated session', data);
                         this.estimationSession.session = data;
                         console.log(this.estimationSession.session)
-                        this.setProcessStep('addTask');
                         this.ractive.set('estimationSession', this.estimationSession.session);
 
                     });
