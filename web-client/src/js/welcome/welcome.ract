@@ -1,7 +1,5 @@
 {{>navbar}}
-<div class="sub-header">
-    <div class="white-text"></div>
-</div>
+
 
 <div class="container">
 
@@ -34,7 +32,7 @@
                            value="{{estimationSessionName}}"
                            placeholder="Set Session Name">
 
-                    <button type="button" class="btn btn--primary is-centered" on-click="startEstimationSession">
+                    <button type="button" class="btn btn--primary is-centered btn--big" on-click="startEstimationSession">
                       Create Session
                     </button>
 
@@ -42,11 +40,9 @@
             {{else}}
                 <div class="session-title">
                     {{estimationSession.name}}
-                    <div class="btn-holder">
-                      <a class="btn btn-start" style="width: 150px;" on-click="startSession">
-                          Start my session
-                      </a>
-                    </div>
+                    <button type="button" class="btn btn--primary session-title__action" on-click="startSession">
+                      Start my session
+                    </button>
                 </div>
 
                 <div class='{{ processStep !== "startSession" ? "is-hidden" : "" }}'>
@@ -100,7 +96,7 @@
                     <input type="text" data-ng-model="cellWidth" class="form-control is-centered"
                            value="{{estimationTask}}"
                            placeholder="Add Task">
-                      <button type="button" class="btn btn--primary is-centered" on-click="addEstimationTask">
+                      <button type="button" class="btn btn--primary is-centered btn--big" on-click="addEstimationTask">
                         Add Task
                       </button>
 

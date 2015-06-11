@@ -3,6 +3,7 @@
 @cool-light-grey: #CCC;
 @very-lght-grey: #EEEEEE;
 @estimation-cell-padding: 1em;
+@white: #FFF;
 
 
 .is-hidden {
@@ -36,7 +37,7 @@
   counter-reset: progress-tasks;
   font-size: 2em;
   font-weight: 100;
-  margin: 0 0 20px 0;
+  margin: 20px 0 20px 0;
   color: @inactive-number-colour;
   .active {
     color: @active-number-colour;
@@ -123,6 +124,24 @@
     width: 70%;
   }
 }
+
+.session-title__action {
+  float: right;
+}
+
+.btn--big {
+  font-size: 2em;
+}
+
+.btn--primary {
+  color: @white;
+  background-color: @active-number-colour;
+  &:hover {
+    color: @white;
+    background-color: darken(@active-number-colour, 10%);
+  }
+}
+
 
 
 
