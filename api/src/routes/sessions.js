@@ -10,7 +10,7 @@ router.get('/', function (req, res, next) {
     if (req.query.q) query.name = req.query.q;
     Session.find(query).then(function (sessions) {
       return res.json(halSessions(sessions));
-    }).catch(next);
+    }).then(null, next);
 });
 
 router.post('/', function (req, res, next) {
@@ -27,7 +27,7 @@ router.get('/:sessionId', function (req, res, next) {
     Session.findById(req.params.sessionId).then(function (session) {
         if (session) res.json(halSession(session));
         else res.sendStatus(404);
-    }).catch(next);
+    }).then(null, next);
 });
 
 router.get('/:sessionId/items', function (req, res, next) {
@@ -36,7 +36,7 @@ router.get('/:sessionId/items', function (req, res, next) {
     Session.findById(req.params.sessionId).then(function (session) {
         if (session) res.json(halItems(session));
         else res.sendStatus(404);
-    }).catch(next);
+    }).then(null, next);
 });
 
 router.post('/:sessionId/items', function (req, res, next) {
@@ -51,7 +51,7 @@ router.post('/:sessionId/items', function (req, res, next) {
       return session.save();
     }).then(function() {
       res.sendStatus(201);
-    }).catch(next);
+    }).then(null, next);
 });
 
 router.get('/:sessionId/items/:itemId', function (req, res, next) {
@@ -64,7 +64,7 @@ router.get('/:sessionId/items/:itemId', function (req, res, next) {
         }));
         var parent = '/sessions/'+ req.params.sessionId + '/items';
         res.send(halItem(parent, item));
-    }).catch(next);
+    }).then(null, next);
 });
 
 router.post('/:sessionId/items/:itemId/estimates', function (req, res, next) {
@@ -82,7 +82,7 @@ router.post('/:sessionId/items/:itemId/estimates', function (req, res, next) {
               io.sockets.emit('estimate-'+session._id,  session._id );
               res.sendStatus(200);
           });
-      }).catch(next);
+      }).then(null, next);
     } else return res.sendStatus(400);
 });
 
