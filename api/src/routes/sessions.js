@@ -14,13 +14,11 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-    var session = new Session({name: req.body.name, items: []});
-    session.save().then(function (session) {
-        res.statusCode = 201;
-        res.send('/sessions/' + session._id);
-    }, function (err) {
-        res.sendStatus(400).send(err.stack);
-    }).catch(next);
+  var session = new Session({name: req.body.name, items: []});
+  session.save(function (err) {
+    if (err) return res.status(400).send(err.stack);
+    res.status(201).send('/sessions/' + session._id);
+  });
 });
 
 router.get('/:sessionId', function (req, res, next) {
