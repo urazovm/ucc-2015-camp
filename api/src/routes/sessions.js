@@ -14,11 +14,9 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-  var session = new Session({name: req.body.name, items: []});
-  session.save(function (err) {
-    if (err) return res.status(400).send(err.stack);
-    res.status(201).send('/sessions/' + session._id);
-  });
+  new Session({name: req.body.name, items: []}).save()
+      .then(function(session) { return res.status(201).send('/sessions/' + session._id); },
+            function(err) { return res.status(400).send(err.stack) });
 });
 
 router.get('/:sessionId', function (req, res, next) {
