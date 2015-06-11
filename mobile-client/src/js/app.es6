@@ -44,7 +44,9 @@ router.addRoute('list', new List(estimationSession, events,router));
 router.addRoute('sorry', new Sorry());
 router.addRoute('404', new NotFound());
 router.initialise();
-
+if(!router.currentHash()) {
+  router.transitionTo('home');
+}
 
 events.routing.notFound.add(function() {
   logger.log('the entered path could not be found');
