@@ -57,8 +57,9 @@ router.post('/:sessionId/items', function (req, res, next) {
 });
 
 router.get('/:sessionId/items/:itemId', function (req, res, next) {
-    if (!mongoose.Types.ObjectId.isValid(req.params.sessionId)) res.sendStatus(404);
-    if (!mongoose.Types.ObjectId.isValid(req.params.itemId)) res.sendStatus(404);
+    if (!mongoose.Types.ObjectId.isValid(req.params.sessionId)) return res.sendStatus(404);
+    if (!mongoose.Types.ObjectId.isValid(req.params.itemId)) return res.sendStatus(404);
+
     Session.findById(req.params.sessionId, function (session) {
         var item = _.first(_.filter(session.items, function (item) {
             return item._id == req.params.itemId
@@ -69,8 +70,8 @@ router.get('/:sessionId/items/:itemId', function (req, res, next) {
 });
 
 router.post('/:sessionId/items/:itemId/estimates', function (req, res, next) {
-    if (!mongoose.Types.ObjectId.isValid(req.params.sessionId)) res.sendStatus(404);
-    if (!mongoose.Types.ObjectId.isValid(req.params.itemId)) res.sendStatus(404);
+    if (!mongoose.Types.ObjectId.isValid(req.params.sessionId)) return res.sendStatus(404);
+    if (!mongoose.Types.ObjectId.isValid(req.params.itemId)) return res.sendStatus(404);
 
     if (req.body.estimate) {
       Session.findById(req.params.sessionId).then(function (session) {
