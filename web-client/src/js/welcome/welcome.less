@@ -1,6 +1,7 @@
 @active-number-colour: #10CB76;
 @inactive-number-colour: #DDD;
 @cool-light-grey: #CCC;
+@very-lght-grey: #EEEEEE;
 @estimation-cell-padding: 1em;
 
 
@@ -8,10 +9,15 @@
   display: none;
 }
 
+.is-centered {
+  margin: 0px auto;
+}
+
 .session-title {
   font-size: 3.2em;
   font-weight: 100;
   border-bottom: 1px solid #888;
+  margin-bottom: 20px;
 }
 .sub-header {
   background-color: @cyan;
@@ -30,6 +36,7 @@
   counter-reset: progress-tasks;
   font-size: 2em;
   font-weight: 100;
+  margin: 0 0 20px 0;
   color: @inactive-number-colour;
   .active {
     color: @active-number-colour;
@@ -48,37 +55,35 @@
     margin-right: 10px;
   }
 
-//   > *::before {
-//       counter-increment: progress-tasks;
-//       content: counters(progress-tasks)''
-//   }
+
+}
+
+.btn--primary {
+  margin-top: 20px;
+  display: block;
 }
 
 .btn-holder {
     float: right;
     width: 20%;
-  }
-  .btn-arrow {
-    width: 100px;
-    height: 100px;
+}
+.btn-arrow {
+  width: 100px;
+  height: 100px;
 
-    display: block;
-    background-image: url('../img/arrow420.svg');
-    background-repeat: no-repeat;
-    background-position: 50% 0%;
-    background-size: 70px 70px;
-    text-indent: -32000px;
-  }
+  display: block;
+  background-image: url('../img/arrow420.svg');
+  background-repeat: no-repeat;
+  background-position: 50% 0%;
+  background-size: 70px 70px;
+  text-indent: -32000px;
+}
 
-.input-group {
-  width : 90%;
-  .input-group-addon {
-    display: none;
-  }
 
-  .form-control{
+
+.form-control{
     border: none;
-    border-left: 1px solid #ddd;
+    background-color: @very-lght-grey;
     font-size: 3.2em;
     font-weight: 100;
     width: 75%;
@@ -86,8 +91,10 @@
     box-shadow: none;
     height: 70px;
     text-align: left;
-  }
 }
+
+
+
 
 .taskList {
   li {
