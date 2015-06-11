@@ -1,9 +1,10 @@
 @active-number-colour: #10CB76;
 @inactive-number-colour: #DDD;
 
-h3 {
+.session-title {
   font-size: 3.2em;
   font-weight: 100;
+  border-bottom: 1px solid #888;
 }
 .sub-header {
   background-color: @cyan;
@@ -46,12 +47,7 @@ h3 {
 //   }
 }
 
-.input-group {
-  width : 90%;
-  .input-group-addon {
-    display: none;
-  }
-  .btn-holder {
+.btn-holder {
     float: right;
     width: 20%;
   }
@@ -67,6 +63,12 @@ h3 {
     text-indent: -32000px;
   }
 
+.input-group {
+  width : 90%;
+  .input-group-addon {
+    display: none;
+  }
+
   .form-control{
     border: none;
     border-left: 1px solid #ddd;
@@ -77,5 +79,15 @@ h3 {
     box-shadow: none;
     height: 70px;
     text-align: left;
+  }
+}
+
+.taskList {
+  li {
+    list-style-type: none;
+    padding: 0em;
+    margin: 0px;
+    font-size: 2em;
+    font-weight: 100;
   }
 }

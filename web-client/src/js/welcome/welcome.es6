@@ -72,12 +72,17 @@ class Welcome {
             this.ractive.set('estimationTasks', this.estimationSession.session.items);
         });
 
+        this.ractive.set('estimationTask', null);
 
     }
 
     setProcessStep(processStep) {
       this.processStep = processStep;
       this.ractive.set('processStep', processStep);
+    }
+
+    startSession(e, task) {
+      return true;
     }
 
 

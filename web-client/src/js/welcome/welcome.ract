@@ -7,7 +7,7 @@
 
 <div class="row noprint progress-tasks">
   <div class='col-xs-3 {{ processStep === "createSession" ? "active" : "" }}'><span class="number">1</span>Create Session</div>
-  <div class='col-xs-3 {{ processStep === "addTask" ? "active" : "" }}'><span class="number">2</span>Create Tasks</div>
+  <div class='col-xs-3 {{ processStep === "addTask" ? "active" : "" }}'><span class="number">2</span>Manage Tasks</div>
   <div class='col-xs-3 {{ processStep === "startSession" ? "active" : "" }}'><span class="number">3</span>Start Session</div>
   <div class='col-xs-3 {{ processStep === "viewResults" ? "active" : "" }}'><span class="number">4</span>View Results</div>
 </div>
@@ -27,7 +27,7 @@
                         <div class="input-group-addon">Start a new Session</div>
                         <input type="text" data-ng-model="cellWidth" class="form-control"
                                value="{{estimationSessionName}}"
-                               placeholder="Add Session Name">
+                               placeholder="Set Session Name">
                         <div class="btn-holder">
                           <a class="btn btn-arrow " style="width: 150px;" on-click="startEstimationSession">
                               Go!
@@ -40,7 +40,14 @@
 
                 </div>
             {{else}}
-                <h3>{{estimationSession.name}}</h3>
+                <div class="session-title">
+                    {{estimationSession.name}}
+                    <div class="btn-holder">
+                      <a class="btn btn-start" style="width: 150px;" on-click="startSessionTask">
+                          Start my session
+                      </a>
+                    </div>
+                </div>
 
                   {{#if estimationSession.items}}
 
@@ -51,19 +58,7 @@
 
                           <ul class="taskList">
                           {{#each estimationSession.items:item}}
-                              <li>{{name}}
-                                  <div class="actions">
-                                      {{#if !estimates}}
-                                      <ul>
-                                          <li class="action btn"><button>Delete</button></li>
-                                      </ul>
-                                      {{else}}
-                                      <ul>
-                                          <li class="action btn"><button>Re-estimate</button></li>
-                                      </ul>
-                                      {{/if}}
-                                  </div>
-                              </li>
+                              <li>{{name}}</li>
                           {{/each}}
                           </ul>
                       </div>
@@ -78,7 +73,7 @@
                         <div class="input-group-addon">Add Item</div>
                         <input type="text" data-ng-model="cellWidth" class="form-control"
                                value="{{estimationTask}}"
-                               placeholder="Task Name">
+                               placeholder="Add Task">
                         <div class="btn-holder">
                           <a class="btn btn-arrow " style="width: 150px;" on-click="addEstimationTask">
                               Add
