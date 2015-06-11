@@ -31,8 +31,8 @@ class Welcome {
         this.setProcessStep('createSession');
 
         this.ractive.on('logout', () => this.logout());
-        this.ractive.on('startEstimationSession', () => this.startEstimationSession(this.ractive.get('estimationSessionName')));
-        this.ractive.on('addEstimationTask', () => this.addEstimationTask(this.ractive.get('estimationTask')));
+        this.ractive.on('startEstimationSession', () => this.startEstimationSession(event, this.ractive.get('estimationSessionName')));
+        this.ractive.on('addEstimationTask', () => this.addEstimationTask(event, this.ractive.get('estimationTask')));
         this.ractive.on('estimateTask', () => this.estimateTask(event,name));
         this.ractive.on('startSession', () => this.startSession());
     }
@@ -51,9 +51,11 @@ class Welcome {
         return this.ractive.teardown();
     }
 
-    startEstimationSession(name) {
+    startEstimationSession(event, name) {
 
       this.setProcessStep('addTask');
+      event.preventDefault();
+
 
         this.estimationSession.create(name)
             .then(() => {
@@ -71,12 +73,15 @@ class Welcome {
 
                 });
             });
+
     }
 
 
-    addEstimationTask(taskName) {
+    addEstimationTask(event, taskName) {
 
-        console.log('adding estimationTask')
+        console.log('adding estimationTask');
+        event.preventDefault();
+
         this.estimationSession.addTask(taskName).then(() => {
             this.ractive.set('estimationTasks', this.estimationSession.session.items);
         });
@@ -101,7 +106,6 @@ class Welcome {
 
 
     estimateTask(e,task){
-
         this.estimationSession.startTask(task);
     }
 
