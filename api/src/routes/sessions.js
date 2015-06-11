@@ -4,35 +4,30 @@ var Session = require('../model/session');
 var mongoose = require('mongoose');
 var _ = require('lodash');
 
-router.get('/', function (req, res) {
-    var query = req.query.q;
-    if (query) {
-        Session.find({name: query}).then(function (sessions) {
-          return res.json(halSessions(sessions));
-        });
-    } else {
-        Session.find().then(function (sessions) {
-          res.json(halSessions(sessions));
-        });
-    }
+router.get('/', function (req, res, next) {
+    var query = {};
+    if (req.query.q) query.name = req.query.q;
+    Session.find(query).then(function (sessions) {
+      return res.json(halSessions(sessions));
+    }).catch(next);
 });
 
-router.post('/', function (req, res) {
+router.post('/', function (req, res, next) {
     var session = new Session({name: req.body.name, items: []});
     session.save().then(function (session) {
         res.statusCode = 201;
         res.send('/sessions/' + session._id);
     }, function (err) {
         res.sendStatus(400).send(err.stack);
-    });
+    }).catch(next);
 });
 
-router.get('/:sessionId', function (req, res) {
+router.get('/:sessionId', function (req, res, next) {
     if (!mongoose.Types.ObjectId.isValid(req.params.sessionId)) res.sendStatus(404);
     Session.findById(req.params.sessionId).then(function (session) {
         if (session) res.json(halSession(session));
         else res.sendStatus(404);
-    });
+    }).catch(next);
 });
 
 router.get('/:sessionId/items', function (req, res, next) {
@@ -40,21 +35,21 @@ router.get('/:sessionId/items', function (req, res, next) {
     Session.findById(req.params.sessionId).then(function (session) {
         if (session) res.json(halItems(session));
         else res.sendStatus(404);
-    });
+    }).catch(next);
 });
 
-router.post('/:sessionId/items', function (req, res) {
+router.post('/:sessionId/items', function (req, res, next) {
     if (!mongoose.Types.ObjectId.isValid(req.params.sessionId)) res.sendStatus(404);
-    Session.findById(req.params.sessionId, function (session) {
-    if (err) return res.sendStatus(500);
-    if (!session) return res.sendStatus(400);
-    if (!req.body.name) return res.sendStatus(400);
-
-    session.items.push({name: req.body.name});
-    session.save(function () {
+    Session.findById(req.params.sessionId).then(function (session) {
+      if (!session) return res.sendStatus(400);
+      if (!req.body.name) return res.sendStatus(400);
+      return session;
+    }).then(function(session) {
+      session.items.push({name: req.body.name});
+      return session.save();
+    }).then(function() {
       res.sendStatus(201);
-    });
-  });
+    }).catch(next);
 });
 
 router.get('/:sessionId/items/:itemId', function (req, res, next) {
@@ -66,14 +61,14 @@ router.get('/:sessionId/items/:itemId', function (req, res, next) {
         }));
         var parent = '/sessions/'+ req.params.sessionId + '/items';
         res.send(halItem(parent, item));
-    });
+    }).catch(next);
 });
 
 router.post('/:sessionId/items/:itemId/estimates', function (req, res, next) {
     if (!mongoose.Types.ObjectId.isValid(req.params.sessionId)) res.sendStatus(404);
     if (!mongoose.Types.ObjectId.isValid(req.params.itemId)) res.sendStatus(404);
 
-    // if (req.body.estimate) {
+    if (req.body.estimate) {
       Session.findById(req.params.sessionId).then(function (session) {
           var item = _.first(_.filter(session.items, function (item) {
               return item._id == req.params.itemId;
@@ -84,8 +79,8 @@ router.post('/:sessionId/items/:itemId/estimates', function (req, res, next) {
               io.sockets.emit('estimate-'+session._id,  session._id );
               res.sendStatus(200);
           });
-      }).then(null, next);
-    // } else return res.sendStatus(400);
+      }).catch(next);
+    } else return res.sendStatus(400);
 });
 
 function halItem(parent, item) {
