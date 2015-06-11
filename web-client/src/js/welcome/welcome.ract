@@ -55,27 +55,35 @@
 
 
         {{#if estimationSession.items}}
-        <div class="tasks">
 
-            <ul class="taskList">
-            {{#each estimationSession.items:item}}
-                <li>{{name}}
-                    <div class="actions">
-                        {{#if !estimates}}
-                        <ul>
-                            <li class="action btn"><button on-click="estimateTask:{{name}}">Start</button></li>
-                            <li class="action btn"><button>Delete</button></li>
-                        </ul>
-                        {{else}}
-                        <ul>
-                            <li class="action btn"><button>Re-estimate</button></li>
-                        </ul>
-                        {{/if}}
-                    </div>
-                </li>
-            {{/each}}
-            </ul>
+         <div class="row noprint">
+            <div class="col-xs-10">
+
+              <div class="tasks">
+
+                <ul class="taskList">
+                {{#each estimationSession.items:item}}
+                    <li>{{name}}
+                        <div class="actions">
+                            {{#if !estimates}}
+                            <ul>
+                                <li class="action btn"><button on-click="estimateTask:{{name}}">Start</button></li>
+                                <li class="action btn"><button>Delete</button></li>
+                            </ul>
+                            {{else}}
+                            <ul>
+                                <li class="action btn"><button>Re-estimate</button></li>
+                            </ul>
+                            {{/if}}
+                        </div>
+                    </li>
+                {{/each}}
+                </ul>
+            </div>
+
+            </div>
         </div>
+
         {{/if}}
 
     </div>
