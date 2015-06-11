@@ -94,7 +94,8 @@ function halItem(parent, item) {
         max: 0,
         total: 0,
         average: 0,
-        stddev: 0
+        stddev: 0,
+        noOfVotes:0
     };
     if (estimates.size() > 0) {
         stats.min = estimates.min();
@@ -103,12 +104,15 @@ function halItem(parent, item) {
             return total + n;
         });
         stats.average = stats.total / estimates.size();
-        stats.stddev = Math.sqrt(estimates.map(function (e) {
-            var diff = e - stats.average;
-            return (diff * diff) / (estimates.size() - 1);
-        }).reduce(function (total, n) {
-            return total + n;
-        })) / stats.average;
+        stats.noOfVotes = estimates.size();
+        if( estimates.size() > 1) {
+            stats.stddev = Math.round((Math.sqrt(estimates.map(function (e) {
+                var diff = e - stats.average;
+                return (diff * diff) / (estimates.size() - 1);
+            }).reduce(function (total, n) {
+                return total + n;
+            })) / stats.average) *100);
+        }
     }
     return {
         _links: {

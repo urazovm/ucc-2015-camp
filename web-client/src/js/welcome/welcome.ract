@@ -15,11 +15,7 @@
 {{#each estimationSession.items}}
     Item 1:
     {{.item}}
-    {{.item.min}}
-    {{.item.max}}
-    {{.item.average}}
-    {{.item.stddev}}
-    {{.item.total}}
+
 {{/each}}
 -->
     <div class="panel-body">
@@ -71,8 +67,12 @@
                         {{#each estimationSession.items}}
                          <tr class="estimation-tasks__row">
                            <td class="estimation-task__cell">{{.item.name}}</td>
-                           <td class="estimation-task__cell"></td>
-                           <td class="estimation-task__cell"></td>
+                           <td class="estimation-task__cell">
+                               {{.item.noOfVotes}}
+                           </td>
+                           <td class="estimation-task__cell">
+                               {{.item.stddev}}
+                           </td>
                          </tr>
                         {{/each}}
                       </tbody>

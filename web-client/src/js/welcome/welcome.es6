@@ -85,9 +85,7 @@ class Welcome {
         this.estimationSession.addTask(taskName).then(() => {
             this.ractive.set('estimationTasks', this.estimationSession.session.items);
         });
-
         this.ractive.set('estimationTask', null);
-
     }
 
     getEstimationTasks() {
