@@ -34,7 +34,7 @@ class Welcome {
         this.ractive.on('startEstimationSession', () => this.startEstimationSession(event, this.ractive.get('estimationSessionName')));
         this.ractive.on('addEstimationTask', () => this.addEstimationTask(event, this.ractive.get('estimationTask')));
         this.ractive.on('estimateTask', () => this.estimateTask(event,name));
-        this.ractive.on('startSession', () => this.startSession());
+        this.ractive.on('runSession', () => this.runSession());
     }
 
     logout() {
@@ -99,9 +99,9 @@ class Welcome {
       this.ractive.set('processStep', processStep);
     }
 
-    startSession() {
+    runSession() {
       this.getEstimationTasks();
-      this.setProcessStep('startSession');
+      this.setProcessStep('runSession');
     }
 
 

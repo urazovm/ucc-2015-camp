@@ -6,7 +6,7 @@
 <div class="row noprint progress-tasks">
   <div class='col-xs-3 {{ processStep === "createSession" ? "active" : "" }}'><span class="number">1</span>Create Session</div>
   <div class='col-xs-3 {{ processStep === "addTask" ? "active" : "" }}'><span class="number">2</span>Manage Tasks</div>
-  <div class='col-xs-3 {{ processStep === "startSession" ? "active" : "" }}'><span class="number">3</span>Run Session</div>
+  <div class='col-xs-3 {{ processStep === "runSession" ? "active" : "" }}'><span class="number">3</span>Run Session</div>
   <div class='col-xs-3 {{ processStep === "viewResults" ? "active" : "" }}'><span class="number">4</span>View Results</div>
 </div>
 
@@ -31,7 +31,8 @@
                 <form on-submit="startEstimationSession">
                     <input type="text" data-ng-model="cellWidth" class="form-control is-centered"
                            value="{{estimationSessionName}}"
-                           placeholder="Set Session Name">
+                           placeholder="Set Session Name"
+                           required="true">
                 </form>
 
 
@@ -39,12 +40,23 @@
             {{else}}
                 <div class="session-title">
                     {{estimationSession.name}}
-                    <button type="button" class="btn btn--primary session-title__action" on-click="startSession">
-                      Start my session
-                    </button>
+
+                    {{#if processStep === "addTask" }}
+                      <button type="button" class="btn btn--primary session-title__action" on-click="runSession">
+                        Start my session
+                      </button>
+                    {{/if}}
+
+                    {{#if processStep === "runSession" }}
+                      <button type="button" class="btn btn--primary session-title__action" on-click="viewResults">
+                        View results
+                      </button>
+                    {{/if}}
+
+
                 </div>
 
-                <div class='{{ processStep !== "startSession" ? "is-hidden" : "" }}'>
+                <div class='{{ processStep !== "runSession" ? "is-hidden" : "" }}'>
 
                   <table class="estimation-tasks">
                     <thead>
@@ -95,7 +107,8 @@
                 <form on-submit="addEstimationTask">
                   <input type="text" data-ng-model="cellWidth" class="form-control is-centered"
                          value="{{estimationTask}}"
-                         placeholder="Add Task">
+                         placeholder="Add Task"
+                         required="true">
                 </form>
 
 
