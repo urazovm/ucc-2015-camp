@@ -52,6 +52,7 @@
 
                 </div>
 
+
                 <div class='{{ processStep !== "runSession" ? "is-hidden" : "" }}'>
 
                   <table class="estimation-tasks">
@@ -80,6 +81,32 @@
                </table>
 
 
+              </div>
+
+              <div class='{{ processStep !== "viewResults" ? "is-hidden" : "" }}'>
+
+                  <table class="estimation-tasks">
+                    <thead>
+                       <tr>
+                         <th class="estimation-task__header">Task</th>
+                         <th class="estimation-task__header">Votes</th>
+                         <th class="estimation-task__header">Average</th>
+                         <th class="estimation-task__header">Disagree (%)</th>
+                       </tr>
+                    </thead>
+                  {{#if estimationSession.items.length}}
+                      <tbody>
+                        {{#each estimationSession.items}}
+                         <tr class="estimation-tasks__row">
+                           <td class="estimation-task__cell">{{.item.name}}</td>
+                           <td class="estimation-task__cell"></td>
+                           <td class="estimation-task__cell">{{.item.average}}</td>
+                           <td class="estimation-task__cell"></td>
+                         </tr>
+                        {{/each}}
+                      </tbody>
+                    {{/if}}
+               </table>
 
 
               </div>

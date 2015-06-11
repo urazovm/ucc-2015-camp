@@ -102,6 +102,10 @@ class Welcome {
       this.setProcessStep('runSession');
     }
 
+    viewResults() {
+      this.getEstimationTasks();
+      this.setProcessStep('viewResults');
+    }
 
     estimateTask(e,task){
         this.estimationSession.startTask(task);
