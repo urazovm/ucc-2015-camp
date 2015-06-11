@@ -14,11 +14,10 @@ var app = express();
 var User = require('./model/user');
 var Session = require('./model/session');
 
-
 var dummyUsername = 'arthur@nudge.com';
 User.findOne({username: dummyUsername}).then(function(user) {
-  console.log(user);
-  if (!user) new User({username: dummyUsername, password: 'password'}).save();
+  if (!user)
+    new User({username: dummyUsername, password: 'password'}).save();
 });
 
 Session.findOne({name:"aaaaa"}).then(function(session){

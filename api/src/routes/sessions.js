@@ -6,21 +6,15 @@ var _ = require('lodash');
 router.get('/', function (req, res) {
     var query = req.query.q;
     if (query) {
-        Session.find({name: query}).then(
-            function (sessions) {
-                res.json(halSessions(sessions));
-            }
-        );
+        Session.find({name: query}).then(function (sessions) {
+          return res.json(halSessions(sessions));
+        });
     } else {
-        Session.find().then(
-            function (sessions) {
-                res.json(halSessions(sessions));
-            }
-        );
-
+        Session.find().then(function (sessions) {
+          res.json(halSessions(sessions));
+        });
     }
 });
-
 
 router.post('/', function (req, res) {
     var session = new Session({name: req.body.name, items: []});
@@ -29,7 +23,6 @@ router.post('/', function (req, res) {
         res.send('/sessions/' + session._id);
     }, function (err) {
         res.sendStatus(400).send(err.stack);
-
     });
 });
 
@@ -48,17 +41,16 @@ router.get('/:sessionId/items', function (req, res, next) {
 });
 
 router.post('/:sessionId/items', function (req, res) {
-    Session.findById(req.params.sessionId, function (err, session) {
-        if (err) {
-            res.sendStatus(500)
-        }
-        else if (session) {
-            session.items.push({name: req.body.name});
-            session.save(function () {
-                res.sendStatus(201);
-            });
-        }
-    })
+  Session.findById(req.params.sessionId, function (err, session) {
+    if (err) return res.sendStatus(500);
+    if (!session) return res.sendStatus(400);
+    if (!req.body.name) return res.sendStatus(400);
+
+    session.items.push({name: req.body.name});
+    session.save(function () {
+      res.sendStatus(201);
+    });
+  });
 });
 
 router.get('/:sessionId/items/:itemId', function (req, res, next) {
@@ -72,20 +64,19 @@ router.get('/:sessionId/items/:itemId', function (req, res, next) {
 });
 
 router.post('/:sessionId/items/:itemId/estimates', function (req, res) {
-    Session.findById(req.params.sessionId).then(function (session) {
-        var item = _.first(_.filter(session.items, function (item) {
-            return item._id == req.params.itemId;
-        }));
-        item.estimates.push(req.body.estimate);
-        session.save(function () {
-            res.statusCode = 200;
-            var io = req.app.get('io');
-            io.sockets.emit('estimateUpdated',  session._id );
-            res.send();
-        });
-    });
-
-
+    if (req.body.estimate) {
+      Session.findById(req.params.sessionId).then(function (session) {
+          var item = _.first(_.filter(session.items, function (item) {
+              return item._id == req.params.itemId;
+          }));
+          item.estimates.push(req.body.estimate);
+          session.save(function () {
+              var io = req.app.get('io');
+              io.sockets.emit('estimateUpdated',  session._id );
+              res.sendStatus(200);
+          });
+      });
+    } else return res.sendStatus(400);
 });
 
 function halItem(parent, item) {
@@ -123,7 +114,6 @@ function halItem(parent, item) {
             description: item.description
         })
     };
-
 }
 
 function halSession(session) {
@@ -138,7 +128,6 @@ function halSession(session) {
             name: session.name
         }
     };
-
 }
 
 function halSessions(sessions) {
@@ -159,6 +148,5 @@ function halItems(session) {
         })
     };
 }
-
 
 module.exports = router;
