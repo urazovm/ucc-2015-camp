@@ -11,7 +11,10 @@ class Estimate {
 
     render(optionalItemId) {
         if (optionalItemId) {
-            this.estimationSession.getItem(null, optionalItemId).then(data => {
+            this.estimationSession.getItem(null, optionalItemId).then((data) => {
+
+                console.log('GotItemEstimateController')
+                console.log(data)
                 this.selectedItem = data;
                 this.ractive = new Ractive({
                     el: 'view',
@@ -26,8 +29,10 @@ class Estimate {
                 this.ractive.on('submitEstimate', () => {
                     let itemEstimate = this.ractive.get('itemEstimate');
                     this.estimationSession.submitEstimateFor(this.selectedItem, itemEstimate)
-                        .then(data => this.ractive.set('itemEstimate', ''))
-                        .catch(err => this.showError(err));
+                        .then((data) => {
+                            this.ractive.set('itemEstimate', '');
+                        },
+                        (err) => this.showError(err));
                 });
             });
         } else {

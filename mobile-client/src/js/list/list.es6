@@ -18,8 +18,18 @@ class List {
             }
         });
 
-        this.estimationSession.get().then(data => this.ractive.set('estimationSession', data));
-        this.ractive.on('viewItem', (event,item) => this.router.transitionTo('estimate/'+  item._id));
+console.log('TODO Fix list constructor')
+        this.estimationSession.get().then((data) => {
+            console.log('got seesion back to list');
+            console.log(data);
+
+            this.ractive.set('estimationSession', data);
+        });
+
+        this.ractive.on('viewItem', (event,item) => {
+            console.log(item)
+            this.router.transitionTo('estimate/'+  item.id);
+        });
     }
 
     unrender() {

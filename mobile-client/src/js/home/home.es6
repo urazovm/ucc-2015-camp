@@ -3,7 +3,8 @@ import html from './home.ract'
 
 class Home {
 
-    constructor(estimationSession, events, router) {
+    constructor(estimationSession, events, router,store) {
+        this.store = store;
         this.estimationSession = estimationSession;
         this.events = events;
         this.router = router;
@@ -26,15 +27,24 @@ class Home {
 
         this.ractive.on('sessionList', () => {
             let sessionName = this.ractive.get('sessionName');
-            this.getSession(sessionName)
-              .then(data => this.router.transitionTo('list'));
+
+            console.log('sessionlist');
+            this.setSessionIdFromName(sessionName).then((data)=>{
+                this.router.transitionTo('list');
+            });
         });
     }
 
-    getSession(sessionName) {
-        return this.estimationSession.get(sessionName)
-            .then(data => data)
-            .catch(err => this.showError(err));
+    setSessionIdFromName(sessionName) {
+        return this.estimationSession.getSessionFromName(sessionName)
+            .then((sessionId) => {
+                console.log('asdfsadf')
+
+                this.store.local.set('sessionId', sessionId)
+                console.log('set session id:' + this.store.local.get('sessionId'))
+                return {};
+            },
+            (err) => this.showError(err));
     }
 
     showError(err) {

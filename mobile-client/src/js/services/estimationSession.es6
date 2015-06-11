@@ -9,67 +9,77 @@ class EstimationSession {
         this.configuration = configuration;
     }
 
+    getSessionFromName(sessionName){
+        return this.http.get(this.configuration.api + '/sessions?q=' + sessionName).then(
+            (response) => {
+                return response.data.sessions[0].session.id;
 
-    getItem(sessionName, itemId){
-        if(!sessionName){
-            sessionName = this.store.local.get('sessionName');
+            }, (errorResponse) => {
+                console.log('FAILURE when looking up session by name');
+            });
+    }
+
+    getItem(sessionId, itemId){
+        if(!sessionId){
+            sessionId = this.store.local.get('sessionId');
         }
         if(itemId){
-            return this.http.get(this.configuration.api + '/sessions/' + sessionName+"/items/"+itemId).then(
+            return this.http.get(this.configuration.api + '/sessions/' + sessionId+"/items/"+itemId).then(
                 (response) => {
+                    console.log('estsessionclass');
+                    console.log(response);
                     return response.data;
                 }, (errorResponse) => {
-                    alert('catastrophic failure when getting item');
+                    console.log('FAILURE  when getting item');
                 });
         }
     }
-    get(sessionName) {
+    get(sessionId) {
         console.log('get session');
-        if (arguments.length !== 1) sessionName = this.store.local.get('sessionName');
-        return this.http.get(this.configuration.api + '/sessions/' + sessionName).then(
-            (response) => {
-                this.store.local.set('sessionName', sessionName);
-                return response.data;
-
+        console.log(sessionId);
+        if (arguments.length !== 1) sessionId = this.store.local.get('sessionId');
+        return this.http.get(this.configuration.api + '/sessions/' + sessionId).then(
+            (sessionResponse) => {
+                return this.http.get(this.configuration.api + sessionResponse.data._links.items.href).then((itemsResponse) =>{
+                        let sessionWithItems = _.extend(sessionResponse.data.session, {items: itemsResponse.data.items});
+                        console.log(sessionWithItems);
+                        return sessionWithItems;
+                    }
+                )
             }, (errorResponse) => {
-                alert('catastrophic failure when joining session');
+                console.log('FAILURE  when joining session');
             });
     }
 
     submitEstimateFor(item, itemEstimate) {
         let payload = {estimate: itemEstimate};
-console.log(item)
-        let estimateLink = _.first(_.filter(item.links, function(link){
-
-                return link.rel === 'estimate';}
-        ));
-        return this.http.post(this.configuration.api + estimateLink.href, payload).then(
+        console.log(item)
+        return this.http.post(this.configuration.api + item._links.estimates.href, payload).then(
             (response) => {
                 return response.data;
             }, (errorResponse) => {
-                alert('catastrophic failure when sending estimate');
+                console.log('FAILURE  when sending estimate');
             });
     }
 
 
     submitEstimateForActiveItem(itemEstimate) {
-        console.log('submitEstimateForActiveItem')
         return this.get().then(
             (response) => {
                 console.log(response)
                 console.log(itemEstimate)
                 return this.submitEstimateFor(response.activeItem, itemEstimate);
             }, (errorResponse) => {
-                alert('catastrophic failure when getting session');
+                console.log('FAILURE  when getting session');
             });
     }
 
     clear() {
-        this.store.local.remove('sessionName');
+        this.store.local.remove('sessionId');
     }
 
     getId() {
-        return this.store.local.get('sessionName');
+        return this.store.local.get('sessionId');
     }
 }
 

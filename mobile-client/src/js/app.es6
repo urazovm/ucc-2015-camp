@@ -1,6 +1,5 @@
 import configuration from 'configuration';
 
-import io from 'socket.io-client';
 import Logdown  from 'logdown';
 
 import Parsely from 'parsleyjs'; // initialise Parsley
@@ -28,9 +27,8 @@ let logger = new Logdown({prefix: 'app'});
 let estimationSession = new EstimationSession(axios, storage, events, configuration);
 let router = new Router(estimationSession, events);
 
-let socket = io(configuration.api);
 
-router.addRoute('home', new Home(estimationSession, events, router));
+router.addRoute('home', new Home(estimationSession, events, router, storage));
 router.addRoute('estimate', new Estimate(estimationSession, events,router));
 router.addRoute('estimate/:itemId:', new Estimate(estimationSession, events,router));
 router.addRoute('list', new List(estimationSession, events,router));

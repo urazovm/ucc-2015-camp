@@ -12,10 +12,15 @@
   <div class='col-xs-3 {{ processStep === "viewResults" ? "active" : "" }}'><span class="number">4</span>View Results</div>
 </div>
 
+    Estimates::
 {{#each estimationSession.items}}
-    {{#each .estimates}}
-        {{.}}
-    {{/each}}
+    Item 1:
+    {{.item}}
+    {{.item.min}}
+    {{.item.max}}
+    {{.item.average}}
+    {{.item.stddev}}
+    {{.item.total}}
 {{/each}}
     <div class="panel-body">
 

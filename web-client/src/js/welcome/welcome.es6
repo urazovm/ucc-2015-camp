@@ -12,10 +12,17 @@ class Welcome {
         this.auth = auth;
         this.estimationSession = estimationSessions;
         this.socket = socket;
-        this.socket.on('estimateUpdated', (res) => {
-            console.log(res.session);
-            this.estimationSession.updateSession(res.session);
-            this.ractive.set('estimationSession', this.estimationSession.session);
+        this.socket.on('estimateUpdated', (sessionId) => {
+
+
+            this.estimationSession.get(sessionId).then((data) =>{
+                console.log('got the updated session', data);
+                this.estimationSession.session = data;
+                console.log(this.estimationSession.session)
+                this.ractive.set('estimationSession', this.estimationSession.session);
+
+            });
+
         });
     }
 
@@ -68,6 +75,7 @@ class Welcome {
 
     addEstimationTask(taskName) {
 
+        console.log('adding estimationTask')
         this.estimationSession.addTask(taskName).then(() => {
             this.ractive.set('estimationTasks', this.estimationSession.session.items);
         });
