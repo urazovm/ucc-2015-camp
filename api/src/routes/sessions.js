@@ -3,6 +3,7 @@ var router = express.Router();
 var Session = require('../model/session');
 var mongoose = require('mongoose');
 var _ = require('lodash');
+var HttpError = require('../errors');
 
 router.get('/', function (req, res, next) {
     var query = {};
@@ -23,7 +24,8 @@ router.post('/', function (req, res, next) {
 });
 
 router.get('/:sessionId', function (req, res, next) {
-    if (!mongoose.Types.ObjectId.isValid(req.params.sessionId)) res.sendStatus(404);
+    if (!mongoose.Types.ObjectId.isValid(req.params.sessionId)) return res.sendStatus(404);
+
     Session.findById(req.params.sessionId).then(function (session) {
         if (session) res.json(halSession(session));
         else res.sendStatus(404);
@@ -31,7 +33,8 @@ router.get('/:sessionId', function (req, res, next) {
 });
 
 router.get('/:sessionId/items', function (req, res, next) {
-    if (!mongoose.Types.ObjectId.isValid(req.params.sessionId)) res.sendStatus(404);
+    if (!mongoose.Types.ObjectId.isValid(req.params.sessionId)) return res.sendStatus(404);
+
     Session.findById(req.params.sessionId).then(function (session) {
         if (session) res.json(halItems(session));
         else res.sendStatus(404);
@@ -39,10 +42,11 @@ router.get('/:sessionId/items', function (req, res, next) {
 });
 
 router.post('/:sessionId/items', function (req, res, next) {
-    if (!mongoose.Types.ObjectId.isValid(req.params.sessionId)) res.sendStatus(404);
+    if (!mongoose.Types.ObjectId.isValid(req.params.sessionId)) return res.sendStatus(404);
+
     Session.findById(req.params.sessionId).then(function (session) {
-      if (!session) return res.sendStatus(400);
-      if (!req.body.name) return res.sendStatus(400);
+      if (!session) throw new HttpError('The session could not be found', 404);
+      if (!req.body.name) throw new HttpError('The name for the item is required', 400);
       return session;
     }).then(function(session) {
       session.items.push({name: req.body.name});
