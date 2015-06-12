@@ -56,7 +56,7 @@ router.get('/:sessionId/items/:itemId', function (req, res, next) {
     if (!mongoose.Types.ObjectId.isValid(req.params.sessionId)) return res.sendStatus(404);
     if (!mongoose.Types.ObjectId.isValid(req.params.itemId)) return res.sendStatus(404);
 
-    Session.findById(req.params.sessionId, function (session) {
+    Session.findById(req.params.sessionId).then(function (session) {
         var item = _.first(_.filter(session.items, function (item) {
             return item._id == req.params.itemId
         }));

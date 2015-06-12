@@ -36,8 +36,8 @@ class EstimationSession {
     }
     get(sessionId) {
         console.log('get session');
-        console.log(sessionId);
         if (arguments.length !== 1) sessionId = this.store.local.get('sessionId');
+        console.log(sessionId);
         return this.http.get(this.configuration.api + '/sessions/' + sessionId).then(
             (sessionResponse) => {
                 return this.http.get(this.configuration.api + sessionResponse.data._links.items.href).then((itemsResponse) =>{
