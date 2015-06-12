@@ -4,6 +4,10 @@ var should = require('should');
 var request = require('supertest');
 var kill = require('./helper');
 var User = require('../src/model/user');
+var traceur = require('traceur');
+traceur.require.makeDefault(function(file) {
+  return file.endsWith('.es6');
+});
 
 describe('GET /login', function() {
 
