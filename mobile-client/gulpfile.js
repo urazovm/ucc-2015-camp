@@ -24,6 +24,11 @@ gulp.task('serve', ['build-all'], function() {
   gulp.watch(paths.less.watch, ['less-watch']);
 });
 
+gulp.task('serve-with-node', ['build-all'], serve({
+  root: ['./dist'],
+  port: process.env.PORT || 8080
+}));
+
 gulp.task('test', function(done) {
   var karma = require('karma').server;
   karma.start({
