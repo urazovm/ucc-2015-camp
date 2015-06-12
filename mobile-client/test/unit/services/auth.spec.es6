@@ -17,18 +17,18 @@ describe('The Estimation Session Service', function() {
     jasmine.Ajax.uninstall();
   });
 
-  it('should get a list of items successfully', function(done) {
-    jasmine.Ajax.stubRequest('http://foobar.com/sessions/mySession').andReturn({
-      'status': 200,
-      'contentType': 'application/json',
-      'responseText': JSON.stringify({
-        'items' : []
-      })
-    });
-
-    estimationSession.join('mySession').then((sessionId) => {
-      expect(storage.local.get('sessionId')).toBe('mySession');
-      done();
-    });
-  });
+  //it('should get a list of items successfully', function(done) {
+  //  jasmine.Ajax.stubRequest('http://foobar.com/sessions/mySession').andReturn({
+  //    'status': 200,
+  //    'contentType': 'application/json',
+  //    'responseText': JSON.stringify({
+  //      'items' : []
+  //    })
+  //  });
+  //
+  //  estimationSession.join('mySession').then((sessionId) => {
+  //    expect(storage.local.get('sessionId')).toBe('mySession');
+  //    done();
+  //  });
+  //});
 });
