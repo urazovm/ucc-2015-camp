@@ -1,12 +1,17 @@
 var _ = require('lodash');
 
+class Links {
+    constructor(self) {
+        this.self = {href: self}
+    }
+
+    addFromSelf(name, href) { this[name] = { href : this.self + href } }
+}
+
 class Session {
     constructor(session) {
-        let self = '/sessions/' + session._id;
-        this._links = {
-            self: {href: self},
-            items: {href: self + '/items'}
-        };
+        this._links = new Links('/sessions/' + session._id);
+        this._links.addFromSelf("items", '/items');
         this.session = {
             id: session._id,
             name: session.name
@@ -16,9 +21,7 @@ class Session {
 
 class Sessions {
     constructor(sessions) {
-        this._links = {
-            self: {href: '/sessions'}
-        };
+        this._links = new Links('/sessions');
         this.sessions = _.map(sessions, s => new Session(s))
     }
 }
