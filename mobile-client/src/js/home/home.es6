@@ -19,23 +19,26 @@ class Home {
             }
         });
 
-        this.ractive.on('sessionInteractive', () => {
-            let sessionName = this.ractive.get('sessionName');
-            this.getSession(sessionName);
-            this.router.transitionTo('estimate');
-        });
+        //this.ractive.on('sessionInteractive', () => {
+        //    let sessionName = this.ractive.get('sessionName');
+        //    this.getSession(sessionName);
+        //    this.router.transitionTo('estimate');
+        //});
 
         this.ractive.on('sessionList', () => {
             let sessionName = this.ractive.get('sessionName');
 
             console.log('sessionlist');
-            this.setSessionIdFromName(sessionName).then((data)=>{
+            this.getSessionIdFromName(sessionName).then((data)=>{
+                if(typeof data === 'undefined') return null;
+                console.log(data);
+                console.log('STOP')
                 this.router.transitionTo('list');
             });
         });
     }
 
-    setSessionIdFromName(sessionName) {
+    getSessionIdFromName(sessionName) {
         return this.estimationSession.getSessionFromName(sessionName)
             .then((sessionId) => {
                 console.log('asdfsadf')

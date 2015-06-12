@@ -17,11 +17,11 @@
             <button class="btn btn-lg btn-primary btn-block btn-signin"
                     type="submit"
                     on-click='sessionList'
-                    disabled="{{!parsleyValid}}">List</button>
-            <button class="btn btn-lg btn-primary btn-block btn-signin"
-                    type="submit"
-                    on-click='sessionInteractive'
-                    disabled="{{!parsleyValid}}">Interactive</button>
+                    disabled="{{!parsleyValid}}">Start</button>
+            <!--<button class="btn btn-lg btn-primary btn-block btn-signin"-->
+                    <!--type="submit"-->
+                    <!--on-click='sessionInteractive'-->
+                    <!--disabled="{{!parsleyValid}}">Interactive</button>-->
         </form>
         {{#if showError}}
         <p class="text-danger">Your username/password is invalid!</p>

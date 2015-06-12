@@ -60,7 +60,7 @@
                        <tr>
                          <th class="estimation-task__header">Task</th>
                          <th class="estimation-task__header">Votes</th>
-                         <th class="estimation-task__header">Disagree (%)</th>
+                         <th class="estimation-task__header">Disagreement</th>
                        </tr>
                     </thead>
                   {{#if estimationSession.items.length}}
