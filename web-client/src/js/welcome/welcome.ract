@@ -99,9 +99,9 @@
                         {{#each estimationSession.items}}
                          <tr class="estimation-tasks__row">
                            <td class="estimation-task__cell">{{.item.name}}</td>
-                           <td class="estimation-task__cell"></td>
+                           <td class="estimation-task__cell">{{.item.noOfVotes}}</td>
                            <td class="estimation-task__cell">{{.item.average}}</td>
-                           <td class="estimation-task__cell"></td>
+                           <td class="estimation-task__cell">{{.item.stddev}}</td>
                          </tr>
                         {{/each}}
                       </tbody>
