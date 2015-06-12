@@ -2,6 +2,7 @@ language: node_js
 env:
   - DIR=api APP=ucc-2015-camp-api
   - DIR=web-client APP=ucc-2015-camp-web-client
+  - DIR=mobile-client APP=ucc-2015-camp-mobile-client
 script: cd $DIR && make test
 before_deploy: cd ../$DIR
 deploy:
