@@ -1,30 +1,17 @@
 var express = require('express');
 var router = express.Router();
 var Session = require('../model/session');
+var HAL = require('../hal/session.es6');
 var mongoose = require('mongoose');
 var _ = require('lodash');
 var HttpError = require('../errors');
-
-class SessionHal {
-    constructor(session) {
-        let self = '/sessions/' + session._id;
-        this._links = {
-            self: {href: self},
-            items: {href: self + '/items'}
-        };
-        this.session = {
-            id: session._id,
-            name: session.name
-        }
-    }
-}
 
 router.get('/', (req, res, next) => {
     var query = {};
     if (req.query.q) query.name = req.query.q;
     console.log(query);
     Session.find(query)
-        .then(sessions => res.json(halSessions(sessions)))
+        .then(sessions => res.json(new HAL.Sessions(sessions)))
         .then(null, next);
 });
 
@@ -38,7 +25,7 @@ router.get('/:sessionId', (req, res, next) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.sessionId)) return res.sendStatus(404);
 
     Session.findById(req.params.sessionId).then(function (session) {
-        if (session) res.json(new SessionHal(session));
+        if (session) res.json(new HAL.Session(session));
         else res.sendStatus(404);
     }).then(null, next);
 });
@@ -137,14 +124,6 @@ function halItem(parent, item) {
             description: item.description
         })
     };
-}
-
-
-function halSessions(sessions) {
-    return {
-            _links: {self: {href: '/sessions'}},
-            sessions: _.map(sessions, s => new SessionHal(s))
-        };
 }
 
 function halItems(session) {
