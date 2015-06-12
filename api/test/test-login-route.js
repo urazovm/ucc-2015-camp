@@ -11,7 +11,7 @@ describe('GET /login', function() {
 
   beforeEach(function(done) {
     kill.mongo('mongodb://localhost/ucc-2015-camp-test').then(function() {
-      app = require('../src/app.js');
+      app = require('../src/app.es6');
       done();
     });
   });

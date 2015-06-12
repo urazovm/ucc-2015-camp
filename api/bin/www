@@ -1,11 +1,16 @@
 #!/usr/bin/env node
 
+var traceur = require('traceur');
+traceur.require.makeDefault(function(file) {
+  return file.endsWith('.es6');
+});
+
 var configuration = require('../src/configuration');
 
 /**
  * Module dependencies.
  */
-var app = require('../src/app');
+var app = require('../src/app.es6');
 var debug = require('debug')('api:server');
 var http = require('http');
 

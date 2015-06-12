@@ -5,7 +5,21 @@ var mongoose = require('mongoose');
 var _ = require('lodash');
 var HttpError = require('../errors');
 
-router.get('/', function (req, res, next) {
+class SessionHal {
+    constructor(session) {
+        let self = '/sessions/' + session._id;
+        this._links = {
+            self: {href: self},
+            items: {href: self + '/items'}
+        };
+        this.session = {
+            id: session._id,
+            name: session.name
+        }
+    }
+}
+
+router.get('/', (req, res, next) => {
     var query = {};
     if (req.query.q) query.name = req.query.q;
     Session.find(query).then(function (sessions) {
@@ -13,13 +27,13 @@ router.get('/', function (req, res, next) {
     }).then(null, next);
 });
 
-router.post('/', function (req, res, next) {
+router.post('/', (req, res, next) => {
   new Session({name: req.body.name, items: []}).save()
-      .then(function(session) { return res.status(201).send('/sessions/' + session._id); },
-            function(err) { return res.status(400).send(err.stack) });
+      .then(session => res.status(201).send('/sessions/' + session._id),
+            err     => res.status(400).send(err.stack));
 });
 
-router.get('/:sessionId', function (req, res, next) {
+router.get('/:sessionId', (req, res, next) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.sessionId)) return res.sendStatus(404);
 
     Session.findById(req.params.sessionId).then(function (session) {
@@ -28,7 +42,7 @@ router.get('/:sessionId', function (req, res, next) {
     }).then(null, next);
 });
 
-router.get('/:sessionId/items', function (req, res, next) {
+router.get('/:sessionId/items', (req, res, next) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.sessionId)) return res.sendStatus(404);
 
     Session.findById(req.params.sessionId).then(function (session) {
@@ -37,7 +51,7 @@ router.get('/:sessionId/items', function (req, res, next) {
     }).then(null, next);
 });
 
-router.post('/:sessionId/items', function (req, res, next) {
+router.post('/:sessionId/items', (req, res, next) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.sessionId)) return res.sendStatus(404);
 
     Session.findById(req.params.sessionId).then(function (session) {
@@ -52,7 +66,7 @@ router.post('/:sessionId/items', function (req, res, next) {
     }).then(null, next);
 });
 
-router.get('/:sessionId/items/:itemId', function (req, res, next) {
+router.get('/:sessionId/items/:itemId', (req, res, next) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.sessionId)) return res.sendStatus(404);
     if (!mongoose.Types.ObjectId.isValid(req.params.itemId)) return res.sendStatus(404);
 
@@ -65,7 +79,7 @@ router.get('/:sessionId/items/:itemId', function (req, res, next) {
     }).then(null, next);
 });
 
-router.post('/:sessionId/items/:itemId/estimates', function (req, res, next) {
+router.post('/:sessionId/items/:itemId/estimates', (req, res, next) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.sessionId)) return res.sendStatus(404);
     if (!mongoose.Types.ObjectId.isValid(req.params.itemId)) return res.sendStatus(404);
     if (!req.body.estimate) return res.sendStatus(400);
@@ -124,27 +138,12 @@ function halItem(parent, item) {
     };
 }
 
-function halSession(session) {
-    var self = '/sessions/' + session._id;
-    return {
-        _links: {
-            self: {href: self},
-            items: {href: self + '/items'}
-        },
-        session: {
-            id: session._id,
-            name: session.name
-        }
-    };
-}
 
 function halSessions(sessions) {
     return {
-        _links: {self: {href: '/sessions'}},
-        sessions: _.map(sessions, function (session) {
-            return halSession(session);
-        })
-    };
+            _links: {self: {href: '/sessions'}},
+            sessions: _.map(sessions, new SessionHal)
+        };
 }
 
 function halItems(session) {

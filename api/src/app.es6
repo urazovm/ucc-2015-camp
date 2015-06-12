@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 
 // routes
 var routes = require('./routes/index');
-var sessions = require('./routes/sessions');
+var sessions = require('./routes/sessions.es6');
 
 var app = express();
 

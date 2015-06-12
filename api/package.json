@@ -22,7 +22,8 @@
     "mongoskin": "^1.4.13",
     "morgan": "~1.5.3",
     "q": "^1.4.1",
-    "socket.io": "^1.3.5"
+    "socket.io": "^1.3.5",
+    "traceur": "0.0.90"
   },
   "devDependencies": {
     "chai": "^3.0.0",
