@@ -22,9 +22,10 @@ class SessionHal {
 router.get('/', (req, res, next) => {
     var query = {};
     if (req.query.q) query.name = req.query.q;
-    Session.find(query).then(function (sessions) {
-      return res.json(halSessions(sessions));
-    }).then(null, next);
+    console.log(query);
+    Session.find(query)
+        .then(sessions => res.json(halSessions(sessions)))
+        .then(null, next);
 });
 
 router.post('/', (req, res, next) => {
@@ -37,7 +38,7 @@ router.get('/:sessionId', (req, res, next) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.sessionId)) return res.sendStatus(404);
 
     Session.findById(req.params.sessionId).then(function (session) {
-        if (session) res.json(halSession(session));
+        if (session) res.json(new SessionHal(session));
         else res.sendStatus(404);
     }).then(null, next);
 });
@@ -142,7 +143,7 @@ function halItem(parent, item) {
 function halSessions(sessions) {
     return {
             _links: {self: {href: '/sessions'}},
-            sessions: _.map(sessions, new SessionHal)
+            sessions: _.map(sessions, s => new SessionHal(s))
         };
 }
 
