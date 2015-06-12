@@ -3,6 +3,7 @@
 var gulp = require('gulp');
 var paths = require('./gulp-tasks/config.js').paths;
 var browserSync = require('browser-sync');
+var serve = require('gulp-serve');
 
 gulp.task('fonts', require('./gulp-tasks/fonts.js')(gulp));
 gulp.task('images', require('./gulp-tasks/images.js')(gulp));
@@ -25,7 +26,7 @@ gulp.task('serve', ['build-all'], function() {
 });
 
 gulp.task('serve-with-node', ['build-all'], serve({
-  root: ['./dist'],
+  root: ['./cordova/www'],
   port: process.env.PORT || 8080
 }));
 
